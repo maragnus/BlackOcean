@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <base href="/"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <script type="module" src="aries/index.js"></script>
+    <script>
+      document.addEventListener("contextmenu", function(event) { event.preventDefault(); })
+    </script>
+</head>
+
+<body>
+  <aries-grid template="a a b b b">
+
+  <aries-panel area="a">
+    <a-cell>
+      <a-label size="md">ARIES SYS <a-icon icon="fal fa-solar-system"></a-icon> 8.1.0178/afe0</a-label>
+      <a-label size="lg">Argo Nova NCX-1508<sup>B</sup></a-label>
+      <a-label typo="info" size="sm"><a-icon icon="fal fa-circle-nodes"></a-icon> SysLink / USER LEVEL =
+       <a-icon icon="fal fa-ellipsis-stroke-vertical"></a-icon> COMMAND</a-label>
+    </a-cell>
+    <a-cell fill center layout="column"><a-label typo="title" size="xl" center><a-icon icon="fal fa-solar-system"></a-icon> Star Map</a-label></a-cell>
+    <a-cell layout="row">
+      <a-cell fill center><aries-meter unit="meter" interval="second" min="0" max="20000" value="12800" bands="safe 16000 warn 18000 danger" label="Velocity"></aries-meter></a-cell>
+      <a-cell fill center><aries-meter unit="kelvin" value="330" min="300" max="520" bands="warn 360 safe 460 warn 490 danger" label="Eng Temp"></aries-meter></a-cell>
+      <a-cell fill center><aries-meter unit="gravity" lockscale="0" value="1.1" min="0" max="5" bands="danger 0.2 warn 0.8 safe 1.5 warn 3 danger" label="Vert G-F"></aries-meter></a-cell>
+      <a-cell fill center><aries-meter unit="gravity" lockscale="0" value="0.4" min="0" max="5" bands="safe 0.5 warn 2 danger" label="Lat G-F"></aries-meter></a-cell>
+      <a-cell fill center><aries-meter unit="sievert" lockscale="-1" value="0.0003" min="0" max="0.005" label="Int Exp"></aries-meter></a-cell>
+      <a-cell fill center><aries-meter unit="sievert" lockscale="-1" value="0.0012" min="0" max="0.005" label="Ext Exp"></aries-meter></a-cell>
+    </a-cell>
+  </aries-panel>
+
+  <aries-panel area="b">
+    <a-cell layout="row">
+      <a-cell fill>
+        <a-label icon="fal fa-sliders" size="lg">Engineering</a-label>
+      </a-cell>
+      <a-cell>
+        <a-button toggle active icon="fal fa-light-emergency">Emergency</a-button>
+      </a-cell>
+      <a-cell>
+        <a-button toggle active icon="fal fa-starfighter-twin-ion-engine-advanced">Reactor</a-button>
+      </a-cell>
+    </a-cell>
+    <a-cell fill layout="row">
+      <a-cell fill content layout="column">
+          <!-- <div style="flex: 1; display: flex; flex-direction: row; justify-items: center; justify-content: space-between;"> -->
+          <a-stack fill layout="row" justify="space-between">
+            <aries-engineering-slider toggle active label="RCT" value="3" watts="1200000" maxwatts="6000000" icon="fal fa-starfighter-twin-ion-engine-advanced"></aries-engineering-slider>
+            <aries-engineering-slider toggle label="EMG" value="3" watts="12" maxwatts="60" icon="fal fa-light-emergency  "></aries-engineering-slider>
+            <aries-engineering-slider toggle active label="LFS" value="3" watts="12" maxwatts="60" icon="fal fa-heart-pulse"></aries-engineering-slider>
+            <aries-engineering-slider toggle active label="SHD" sup="E" value="2" watts="45" maxwatts="90" icon="fal fa-shield-plus"></aries-engineering-slider>
+            <aries-engineering-slider toggle active label="SHD" sup="A" value="2" watts="45" maxwatts="90" icon="fal fa-shield-quartered"></aries-engineering-slider>
+            <aries-engineering-slider toggle label="LSR" sup="1" value="2" watts="0" maxwatts="340" icon="fal fa-raygun"></aries-engineering-slider>
+            <aries-engineering-slider toggle active label="IMP" value="5" watts="314" maxwatts="280" icon="fal fa-rocket-launch"></aries-engineering-slider>
+            <aries-engineering-slider toggle label="WRP" value="1" watts="0" maxwatts="1600" icon="fal fa-coin-vertical"></aries-engineering-slider>
+            <aries-engineering-slider toggle label="COM" value="2" watts="25" maxwatts="150" icon="fal fa-satellite-dish"></aries-engineering-slider>
+          </a-stack>
+      </a-cell>
+    <a-cell layout="column" justify="center">
+      <a-cell layout="row" fill content><aries-meter unit="percent" min="0" max="100" value="96" bands="danger 10 warn 50 safe" label="F SHD"></aries-meter></a-cell>
+      <a-cell layout="row" fill content><aries-meter unit="percent" min="0" max="100" value="85" bands="danger 10 warn 50 safe" label="A SHD"></aries-meter></a-cell>
+      <a-cell layout="row" fill content><aries-meter unit="percent" interval="second" min="0" max="5" value="1.3" bands="safe" label="Charge"></aries-meter></a-cell>
+      <a-cell layout="row" fill content><aries-meter unit="watt" interval="hour" min="0" max="1200000000" value="952000000" bands="safe" label="Draw"></aries-meter></a-cell>
+    </a-cell>
+    <a-cell layout="column" justify="center">
+      <a-cell layout="row" fill content><aries-meter unit="kelvin" min="200" max="750" value="370" bands="safe 360 warn 600 danger" label="Core"></aries-meter></a-cell>
+      <a-cell layout="row" fill content><aries-meter unit="kelvin" min="200" max="750" value="260" bands="safe 360 warn 600 danger" label="Coolant"></aries-meter></a-cell>
+      <a-cell layout="row" fill content><aries-meter unit="kelvin" interval="second" min="0" max="50" value="22" bands="safe" label="purge"></aries-meter></a-cell>
+      <a-cell layout="row" fill content><aries-meter unit="watt" interval="hour" min="0" max="1200000000" value="811000000" bands="safe" label="Gen"></aries-meter></a-cell>
+    </a-cell>
+  </a-cell>
+  <a-cell content>
+    <a-stack layout="row" justify="space-between">
+      <a-button toggle icon="fal fa-shield">FWD</a-button>
+      <a-button toggle icon="fal fa-shield">AFT</a-button>
+      <a-button toggle icon="fal fa-car-battery">EP</a-button>
+      <a-button toggle icon="fal fa-vent-damper">Vent</a-button>
+      <a-button toggle icon="fal fa-snowflake">Cool</a-button>
+      <a-button icon="fal fa-eject">Purge</a-button>
+    </a-stack>
+  </a-cell>
+</aries-panel>
+
+</aries-grid>
+</body>
+</html>

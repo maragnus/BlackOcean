@@ -1,0 +1,42 @@
+@use 'variables' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0; // 1
+  background-color: $body-bg; // 2
+  -webkit-text-size-adjust: 100%; // 3
+  // -webkit-tap-highlight-color: rgba($black, 0); // 4
+  display: flex;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+body, button, input {
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: $font-size;
+    font-weight: $font-weight;
+}
+
+body {
+    color: $font-color;
+    background: $bg-dark;
+    background: $bg-light;
+    background-image: radial-gradient(ellipse at center center, $bg-dark 0%, $bg-dark 60%, $bg-light 100%);
+    transition: transform 1s;
+    text-shadow: 0 0 8px $font-glow;
+}

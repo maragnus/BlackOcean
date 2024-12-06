@@ -1,0 +1,44 @@
+{
+  "name": "black-ocean",
+  "version": "1.0.0",
+  "description": "Frontend for Black Ocean",
+  "author": "blackocean@maragnus.com",
+  "license": "Custom",
+  "keywords": [],
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.1",
+    "@fortawesome/pro-light-svg-icons": "^6.7.1",
+    "@fortawesome/pro-solid-svg-icons": "^6.7.1",
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "eslint": "^9.15.0",
+    "eslint-plugin-lit": "^1.15.0",
+    "globals": "^15.12.0",
+    "lit-analyzer": "^2.0.3",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "rollup": "^2.36.2",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-minify-html-literals": "^1.2.6",
+    "rollup-plugin-sass": "^1.14.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.82.0",
+    "serve": "^14.2.4",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.15.0"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "clean": "rimraf ./build",
+    "watch": "rollup -c -w",
+    "dev": "npm-run-all --parallel start watch",
+    "start": "serve build -p 44414"
+  }
+}

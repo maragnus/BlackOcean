@@ -1,0 +1,72 @@
+﻿{
+  "Ships": [
+    {
+      "Name": "Basic Ship",
+      "Hull": "Basic Hull",
+      "Storages": ["Battery 10MJ", "Uranium Store 1kL", "Shield Energy Store 100MJ", "Coolant 100MJ"],
+      "Generators": ["Uranium Generator 5kW"],
+      "Shields": ["Energy Shield Generator 1kW", "Ablative Shield Generator 1kW"],
+      "Cooling": ["Radiator 5MW"]
+    }
+  ],
+  "Hulls": [
+    {
+      "Name": "Basic Hull",
+      "Mass": 5250000000
+    }
+  ],
+  "Storages": [
+    {
+      "Name": "Battery 10MJ",
+      "Material": "Electricity",
+      "Capacity": 10
+    },
+    {
+      "Name": "Uranium Store 1kL",
+      "Material": "Uranium",
+      "Capacity": 1000
+    },
+    {
+      "Name": "Shield Energy Store 100MJ",
+      "Material": "Shield Energy",
+      "Capacity": 100
+    },
+    {
+      "Name": "Coolant 100MJ",
+      "Material": "Heat",
+      "Capacity": 100,
+      "TransferRate": 10
+    }
+  ],
+  "Generators": [
+    {
+      "Name": "Uranium Generator 5kW",
+      "Material": "Uranium",
+      "Efficiency": 0.8,
+      "Output": 0.500,
+      "ThermalLimit": 800
+    }
+  ],
+  "Shields": [
+    {
+      "Name": "Energy Shield Generator 1kW",
+      "Efficiency": 0.92,
+      "Output": 1000,
+      "ThermalLimit": 800,
+      "ShieldType": "Energy"
+    },
+    {
+      "Name": "Ablative Shield Generator 1kW",
+      "Efficiency": 0.92,
+      "Output": 10,
+      "ThermalLimit": 800,
+      "ShieldType": "Ablative"
+    }
+  ],
+  "Cooling": [
+    {
+      "Name": "Radiator 5MW",
+      "Output": 5.0
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+bin/
+obj/
+/packages/
+/Work/
+riderModule.iml
+/_ReSharper.Caches/
+node_modules/
+**/ClientApp/build/
+.idea/

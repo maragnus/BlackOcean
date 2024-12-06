@@ -1,0 +1,79 @@
+$line-height-base: 12px;
+$body-bg: black;
+$font-size: 16px;
+$font-color: #def;
+$font-glow: rgba(255, 255, 255, 0.5);
+$font-weight: 400;
+$bg-dark: #043752;
+$bg-light: #014F63;
+
+:root {
+    --font-family: "Orbitron", sans-serif;
+    --grid-gap: 24px;
+    --edge-gap: 12px;
+    --cell-padding: 12px;
+    
+    
+    --rgb-safe: 13, 202, 240;
+    --rgb-warn: 240, 187, 13;
+    --rgb-danger: 201, 84, 111;
+    --rgb-value: 221, 238, 255;
+    --text-color: #def;
+    --text-dim: #adc0d3;
+    --text-info: #0dcaf0;
+    --text-warn: #f0bb0d;
+    --text-error: #C9546F;
+    --text-error-glow: rgba(255, 0, 0, 0.75);
+    --text-glow-distance: 8px;
+    --text-glow: rgba(255, 255, 255, 0.5);
+    --text-warn-color: #fdc;
+    --text-info-color: #ccf;
+    --border-light: rgba(240, 245, 255, 0.85);
+
+    --panel-border-radius: 32px;
+    --panel-bloom-size: 4px;
+    --panel-bloom-color: rgba(0, 175, 180, 0.85);
+
+    --bg-dark: #043752;
+    --bg-light: #014F63;
+
+    --button-padding: 5px 15px;
+    --button-left-radius: 16px;
+    --button-right-radius: 32px;
+    --button-background: #043752;
+    --button-bloom-size: 2px;
+    --button-bloom-color: rgba(0, 175, 180, 0.25);
+    --button-hover-bloom-color: rgba(0, 175, 180, 0.85);
+    --button-active-bloom-color: rgba(180, 27, 0, 0.85);
+    --button-active-border-color: #C9546F;
+    --button-active-background-color: #51041D;
+    --button-active-color: #4C4603;
+
+    --slider-border: none; /*1px solid var(--border-light)*/
+    --slider-box-active: rgba(13, 202, 240, 0.85);
+    --slider-box-active-bloom-size: 4px;
+    --slider-box-active-bloom-color: rgba(0, 175, 180, 0.85);
+    --slider-box-inactive: rgba(13, 202, 240, 0.35);
+    --slider-box-inactive-bloom-size: 3px;
+    --slider-box-inactive-bloom-color: rgba(0, 175, 180, 0.35);
+
+    --slider-inactive-safe: rgba(var(--rgb-safe), 0.3);
+    --slider-inactive-warn: rgba(var(--rgb-warn), 0.3);
+    --slider-inactive-danger: rgba(var(--rgb-danger), 0.3);
+    --slider-active-safe: rgba(var(--rgb-safe), 0.7);
+    --slider-active-warn: rgba(var(--rgb-warn), 0.7);
+    --slider-active-danger: rgba(var(--rgb-danger), 0.7);
+    --slider-thumb-safe: #043752;
+    --slider-thumb-warn: #4C4603;
+    --slider-thumb-danger: #51041D;
+
+    --meter-glow-distance: 2px;
+    --meter-glow: rgba(0, 175, 180, 0.5);
+    --meter-safe: #0dcaf0;
+    --meter-warn: #f0bb0d;
+    --meter-danger: #C9546F;
+    --meter-value: #def;
+
+    /*color: rgb(from var(--meter-warn) r g b / 0.7);*/
+}
+

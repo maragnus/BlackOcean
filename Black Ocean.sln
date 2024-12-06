@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackOcean.App", "BlackOcean.App\BlackOcean.App.csproj", "{1C23500F-08F2-4EB1-8041-042548B22D3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackOcean.Common", "BlackOcean.Common\BlackOcean.Common.csproj", "{59FD53FD-A4E2-464E-A5E0-A84C44D34840}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackOcean.Common.Test", "BlackOcean.Common.Test\BlackOcean.Common.Test.csproj", "{629AE9F9-3277-44AF-968C-99ADABFD526E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackOcean.Simulation", "BlackOcean.Simulation\BlackOcean.Simulation.csproj", "{A05C0035-BAC3-4CF8-9787-A6A7618ABD15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackOcean.Simulation.Tests", "BlackOcean.Simulation.Tests\BlackOcean.Simulation.Tests.csproj", "{039382E1-1EFC-44C5-B438-25E1163ED815}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C23500F-08F2-4EB1-8041-042548B22D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C23500F-08F2-4EB1-8041-042548B22D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C23500F-08F2-4EB1-8041-042548B22D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C23500F-08F2-4EB1-8041-042548B22D3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59FD53FD-A4E2-464E-A5E0-A84C44D34840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59FD53FD-A4E2-464E-A5E0-A84C44D34840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59FD53FD-A4E2-464E-A5E0-A84C44D34840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59FD53FD-A4E2-464E-A5E0-A84C44D34840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{629AE9F9-3277-44AF-968C-99ADABFD526E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{629AE9F9-3277-44AF-968C-99ADABFD526E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{629AE9F9-3277-44AF-968C-99ADABFD526E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{629AE9F9-3277-44AF-968C-99ADABFD526E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A05C0035-BAC3-4CF8-9787-A6A7618ABD15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05C0035-BAC3-4CF8-9787-A6A7618ABD15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05C0035-BAC3-4CF8-9787-A6A7618ABD15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05C0035-BAC3-4CF8-9787-A6A7618ABD15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{039382E1-1EFC-44C5-B438-25E1163ED815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{039382E1-1EFC-44C5-B438-25E1163ED815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{039382E1-1EFC-44C5-B438-25E1163ED815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{039382E1-1EFC-44C5-B438-25E1163ED815}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1C23500F-08F2-4EB1-8041-042548B22D3C} = {52EDCDDA-7A73-416C-9B9A-9068E0806549}
+		{59FD53FD-A4E2-464E-A5E0-A84C44D34840} = {52EDCDDA-7A73-416C-9B9A-9068E0806549}
+		{629AE9F9-3277-44AF-968C-99ADABFD526E} = {52EDCDDA-7A73-416C-9B9A-9068E0806549}
+		{A05C0035-BAC3-4CF8-9787-A6A7618ABD15} = {52EDCDDA-7A73-416C-9B9A-9068E0806549}
+		{039382E1-1EFC-44C5-B438-25E1163ED815} = {52EDCDDA-7A73-416C-9B9A-9068E0806549}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {903B9AA2-6D80-49D6-BA04-844B06513C2A}
+	EndGlobalSection
+EndGlobal

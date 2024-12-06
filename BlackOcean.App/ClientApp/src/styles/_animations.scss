@@ -1,0 +1,42 @@
+@use 'variables' as *;
+
+.shake {
+    animation: shake 0.15s infinite;
+}
+@keyframes shake {
+    0% { transform: skewX(-5deg); }
+    5% { transform: skewX(5deg); }
+    10% { transform: skewX(-5deg); }
+    15% { transform: skewX(5deg); }
+    20% { transform: skewX(0deg); }
+    100% { transform: skewX(0deg); }
+}
+
+.syncing {
+    animation: outline-pulse 2s ease infinite;
+}
+
+@keyframes outline-pulse {
+    0% {
+        outline-width: 1px;
+        outline-offset: 0;
+        outline-color: rgba(0, 175, 180, 0);
+    }
+
+    10% {
+        outline-color: rgba(0, 175, 180, 0.75);
+    }
+
+    /* The animation finishes at 50% */
+    80% {
+        outline-width: 7px;
+        outline-offset: 4px;
+        outline-color: rgba(0, 175, 180, 0);
+    }
+
+    100% {
+        outline-width: 7px;
+        outline-offset: 4px;
+        outline-color: rgba(102, 175, 180, 0);
+    }
+}
