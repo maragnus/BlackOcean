@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 
 namespace BlackOcean.Common;
 
@@ -14,7 +15,8 @@ public sealed partial class ModelDefinition
         Type Type,
         Func<object, object?> Get,
         Action<object, object?> Set,
-        Action<object, object> Cloner);
+        Action<object, object> Cloner,
+        bool IsNullable);
 
     private static readonly Dictionary<Type, Common.ModelDefinition> Definitions = new(64);
 
@@ -27,6 +29,8 @@ public sealed partial class ModelDefinition
     
     public ModelDefinition(Type modelType)
     {
+        var context = new NullabilityInfoContext();
+        
         ModelType = modelType;
         _constructor = () => modelType.GetConstructor([])!.Invoke(null);
         _properties = modelType.GetFields(BindingFlags.Public | BindingFlags.Instance)
@@ -34,7 +38,10 @@ public sealed partial class ModelDefinition
             {
                 var getter = CreateGetter(fi);
                 var setter = CreateSetter(fi);
-                return new PropertyDefinition(fi.Name, fi.FieldType, getter, setter, BuildCloner(fi.FieldType, getter, setter));
+                var nullabilityInfo = context.Create(fi);
+                var isNullable = nullabilityInfo.WriteState == NullabilityState.Nullable ||
+                                 nullabilityInfo.ReadState == NullabilityState.Nullable;
+                return new PropertyDefinition(fi.Name, fi.FieldType, getter, setter, BuildCloner(fi.FieldType, getter, setter), isNullable);
             })
             .Concat(
                 modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -42,7 +49,10 @@ public sealed partial class ModelDefinition
                     {
                         var getter = CreateGetter(pi);
                         var setter = CreateSetter(pi);
-                        return new PropertyDefinition(pi.Name, pi.PropertyType, getter, setter, BuildCloner(pi.PropertyType, getter, setter));
+                        var nullabilityInfo = context.Create(pi);
+                        var isNullable = nullabilityInfo.WriteState == NullabilityState.Nullable ||
+                                         nullabilityInfo.ReadState == NullabilityState.Nullable;
+                        return new PropertyDefinition(pi.Name, pi.PropertyType, getter, setter, BuildCloner(pi.PropertyType, getter, setter), isNullable);
                     }))
             .ToArray();
         _propertyDictionary = _properties.ToDictionary(p => p.Name);
@@ -61,4 +71,5 @@ public sealed partial class ModelDefinition
     // return (Func<object, object?>)Delegate.CreateDelegate(typeof(Func<object, object?>), null, getMethod);
     // var setMethod = property.GetSetMethod(false)!;
     // return (Action<object, object?>)Delegate.CreateDelegate(typeof(Action<object, object?>), null, setMethod);
+    
 }

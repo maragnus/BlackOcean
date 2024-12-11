@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\BlackOcean.Common\BlackOcean.Common.csproj" />
         <ProjectReference Include="..\BlackOcean.Simulation\BlackOcean.Simulation.csproj" />
     </ItemGroup>
     

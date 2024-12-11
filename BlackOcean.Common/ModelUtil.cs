@@ -1,4 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BlackOcean.Common;
 
@@ -12,7 +15,7 @@ public static class ModelUtil
         return (TModel)definition.DeepClone(model);
     }
 
-    public static Dictionary<string, object> Diff<TModel>(TModel newModel, TModel oldModel) where TModel : class, new()
+    public static Dictionary<string, object> Diff<TModel>(TModel? newModel, TModel? oldModel) where TModel : class, new()
     {
         var definition = ModelDefinition.GetDefinition(typeof(TModel));
         return definition.Diff(newModel, oldModel, false)!;
@@ -28,5 +31,32 @@ public static class ModelUtil
     {
         var definition = ModelDefinition.GetDefinition(typeof(TModel));
         definition.Apply(model, diff);
+    }
+
+    private static JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        IncludeFields = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Converters = { new JsonStringEnumConverter() },
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        AllowTrailingCommas = true,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
+        PropertyNameCaseInsensitive = true
+    };
+    
+    public static string Serialize(object model) => 
+        JsonSerializer.Serialize(model, _jsonSerializerOptions);
+
+    public static void Serialize(Stream stream, object model)
+    {
+        using var writer = new Utf8JsonWriter(stream);
+        JsonSerializer.Serialize(writer, model, _jsonSerializerOptions);
+    }
+
+    public static string ToTypeScript<TModel>()
+    {
+        var definition = ModelDefinition.GetDefinition(typeof(TModel));
+        return definition.ToTypeScript();
     }
 }

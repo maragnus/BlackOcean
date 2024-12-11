@@ -6,6 +6,8 @@ import minifyHTML from 'rollup-plugin-minify-html-literals';
 import copy from 'rollup-plugin-copy';
 import sass from 'rollup-plugin-sass';
 
+sass({ api: 'modern' });
+
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
 const production = !process.env.ROLLUP_WATCH;
@@ -20,11 +22,11 @@ const copyConfig = {
 
 const sassConfig = {
   output: 'build/bundle.css',
-  sass: sass
+  api: 'modern'
 }
 
 export default {
-  input: 'src/aries/index.ts',
+  input: 'src/index.ts',
   output: {
     name: "aries",
     format: 'iife',
@@ -33,10 +35,10 @@ export default {
   },
 
   // output: {
-  // dir: 'build',
-  // name: "aries",
-  // format: 'cjs',
-  // sourcemap: true,
+  //   name: "aries",
+  //   format: 'cjs',
+  //   sourcemap: true,
+  //   dir: 'build',
   // },
 
   plugins: [

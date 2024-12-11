@@ -101,7 +101,8 @@ public class Sector : IEquatable<Sector>, ISimulated, IReadOnlyCollection<SpaceB
         foreach (var body in _bodies)
             body.Simulate(context);
 
-        World?.Step(context.DeltaTime);
+        if (context.DeltaTime > 0)
+            World?.Step(context.DeltaTime);
     }
     
     public bool Equals(Sector? other)
