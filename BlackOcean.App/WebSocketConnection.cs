@@ -2,6 +2,7 @@
 using System.Text.Json;
 using BlackOcean.Common;
 using BlackOcean.Simulation;
+using BlackOcean.Simulation.ControlPanels;
 using BlackOcean.Simulation.ShipSystems;
 
 namespace BlackOcean.App;
@@ -78,8 +79,6 @@ public class WebSocketConnection
     
     public async Task ProcessAsync()
     {
-        _logger.LogInformation("Processing connection");
-
         await ReceiveMessages();
         await SendMessages();
     }
@@ -104,11 +103,7 @@ public class WebSocketConnection
         }
         
         var diff = ModelUtil.DiffApply(Player.ControlPanel, _controlPanelClone);
-        if (diff.Count == 0)
-        {
-            _logger.LogInformation("No updates");
-            return;
-        }
+        if (diff.Count == 0) return;
         _logger.LogInformation("Sending {Count} updates", diff.Count);
 
         ModelUtil.Serialize(_writeBuffer, new UpdateMessage(new UpdateBody(diff)));

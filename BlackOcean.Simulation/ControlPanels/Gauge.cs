@@ -1,6 +1,6 @@
-﻿namespace BlackOcean.Simulation.ShipSystems;
+﻿namespace BlackOcean.Simulation.ControlPanels;
 
-public class Meter
+public class Gauge
 {
     public string Name { get; set; } = "";
     public string Unit { get; set; } = "none";

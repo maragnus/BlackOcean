@@ -22,6 +22,7 @@ public abstract class Scenario() : ISimulated
         var ship = Prefabs.GetShip(shipName);
         ship.Name = playerName;
         ship.Sector = sector;
+        ship.Refuel();
         ship.AddSystem(controlPanel);
         
         var player = new Player

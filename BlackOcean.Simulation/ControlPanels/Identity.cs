@@ -1,4 +1,4 @@
-﻿namespace BlackOcean.Simulation.ShipSystems;
+﻿namespace BlackOcean.Simulation.ControlPanels;
 
 public class Identity
 {

@@ -16,22 +16,22 @@ export interface ControlPanel {
     radiator: Button
     cooler: Button
     purge: Button
-    fuel: Meter
-    emergencyFuel: Meter
-    forwardShield: Meter
-    aftShield: Meter
-    generated: Meter
-    draw: Meter
-    battery: Meter
-    emergencyBattery: Meter
-    heatGain: Meter
-    heatPurge: Meter
-    heatStore: Meter
-    interiorExposure: Meter
-    exteriorExposure: Meter
+    fuel: Gauge
+    emergencyFuel: Gauge
+    forwardShield: Gauge
+    aftShield: Gauge
+    generated: Gauge
+    draw: Gauge
+    battery: Gauge
+    emergencyBattery: Gauge
+    heatGain: Gauge
+    heatPurge: Gauge
+    heatStore: Gauge
+    interiorExposure: Gauge
+    exteriorExposure: Gauge
 }
 
-export interface Meter {
+export interface Gauge {
     [index: string]: unknown
     name: string
     unit: string

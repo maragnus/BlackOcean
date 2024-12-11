@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using BlackOcean.Simulation.ShipSystems;
+using BlackOcean.Simulation.ControlPanels;
 
 namespace BlackOcean.Simulation;
 

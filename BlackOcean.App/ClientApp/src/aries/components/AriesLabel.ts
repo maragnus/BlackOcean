@@ -1,7 +1,7 @@
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import './icon';
-import { TextStyles } from './styles';
+import './AriesIcon';
+import { TextStyles } from '../Styles';
 
 @customElement("a-label")
 export class AriesLabel extends LitElement {

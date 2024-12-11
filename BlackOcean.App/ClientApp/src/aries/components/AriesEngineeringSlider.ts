@@ -1,9 +1,11 @@
 import {LitElement, html, css} from 'lit'
 import {customElement, property} from 'lit/decorators.js'
 import {ifDefined} from 'lit/directives/if-defined.js'
-import "./../components"
-import './meter'
-import { TextStyles } from '../styles'
+import "./AriesStack"
+import "./AriesLabel"
+import "./AriesButton"
+import "./AriesSlider"
+import { TextStyles } from '../Styles'
 
 @customElement("aries-engineering-slider")
 export class AriesEngineeringSlider extends LitElement {

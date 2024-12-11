@@ -1,6 +1,6 @@
 import {LitElement, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {FlexLayoutStyles} from './styles';
+import {FlexLayoutStyles} from '../Styles';
 
 @customElement("a-stack")
 export class AriesStack extends LitElement {

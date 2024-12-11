@@ -1,5 +1,4 @@
-export { AriesEngineeringSlider } from './controls/engineering-slider';
-export { AriesMeter } from './controls/meter';
-export { FlexLayoutStyles, TextStyles } from './styles';
+export { FlexLayoutStyles, TextStyles } from './Styles';
 export * from './components';
-export * from './units';
+export * from './displays';
+export * from './Unit';

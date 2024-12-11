@@ -1,6 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import copy from 'rollup-plugin-copy';
@@ -28,7 +28,7 @@ const sassConfig = {
 export default {
   input: 'src/index.ts',
   output: {
-    name: "aries",
+    // name: "aries",
     format: 'iife',
     sourcemap: true,
     file: 'build/bundle.js',

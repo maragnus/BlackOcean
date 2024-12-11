@@ -1,4 +1,6 @@
-﻿namespace BlackOcean.Simulation.ShipSystems;
+﻿using BlackOcean.Simulation.ShipSystems;
+
+namespace BlackOcean.Simulation.ControlPanels;
 
 public class Button
 {

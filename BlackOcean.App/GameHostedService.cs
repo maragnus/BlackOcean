@@ -17,8 +17,6 @@ public sealed class GameService(Game game, ILogger<GameService> logger)
 
     public async Task Update(double now, double deltaTime)
     {
-        logger.LogInformation("Game tick {Time}s {Delta}", now, deltaTime);
-
         Game.Simulate(now / 1_000.0, deltaTime);
         
         await UpdateConnections();
@@ -26,8 +24,6 @@ public sealed class GameService(Game game, ILogger<GameService> logger)
 
     private async Task UpdateConnections()
     {
-        logger.LogInformation("Processing {ConnectionCount} connections.", _connections.Count);
-
         var tasks = _connections.Keys
             .Select(c => c.ProcessAsync());
         await Task.WhenAll(tasks);

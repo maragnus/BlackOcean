@@ -1,6 +1,6 @@
 import {LitElement, html, css, PropertyValues, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import "./icon";
+import "./AriesIcon";
 
 @customElement("a-button")
 export class AriesButton extends LitElement {

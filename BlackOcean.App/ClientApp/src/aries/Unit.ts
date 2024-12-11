@@ -1,6 +1,6 @@
 export type Unit = 'none' | 'percent' | 'meter' | 'liter' | 'gram' | 'kelvin' | 'second' | 'minute' | 'hour' | 'day' | 'year' 
     | 'volt' | 'amp' | 'ohm' | 'watt' | 'joule' | 'coulomb' | 'hertz' | 'henry' | 'farad' | 'byte' | 'bit' 
-    | 'beats per minute' | 'millimeter of mercury' | 'celsius' | 'kilogram' | 'gram per deciliter' | 'ph' | 'newton' 
+    | 'beats per minute' | 'millimeter of mercury' | 'celsius' | 'gram per deciliter' | 'ph' | 'newton' 
     | 'gravity' | 'pascal' | 'mole' | 'candela' | 'lumen' | 'lux' | 'decibel' | 'gray' | 'sievert';
 export type UnitInterval = "second" | "minute" | "hour" | "day" | "year";
 
@@ -13,6 +13,8 @@ export const unitAbbreviations: Record<string, string> = {
     liter: "L",
     gram: "g",
     kelvin: "K",
+
+    // Time units
     second: "s",
     minute: "m",
     hour: "h",
@@ -38,7 +40,6 @@ export const unitAbbreviations: Record<string, string> = {
     "beats per minute": "BPM",
     "millimeter of mercury": "mmHg",
     celsius: "°C",
-    kilogram: "kg",
     "gram per deciliter": "g/dL",
     ph: "ph",
 
@@ -64,8 +65,16 @@ export interface ScaledValue {
     unitName: string
 }
 
+const scaleable: Set<Unit> = new Set<Unit>([ 
+    'meter', 'liter', 'gram', 'kelvin', 'volt', 'amp', 'ohm', 'watt', 'joule', 'coulomb', 'hertz', 'henry', 'farad', 
+    'gram per deciliter', 'pascal', 'mole', 'candela', 'lumen', 'lux', 'gray', 'sievert'
+]);
+
 export function scaleValue(value: number, unit: Unit | undefined, interval: UnitInterval | undefined = undefined, lockScale: number | undefined = undefined): ScaledValue {
     unit ??= "none"
+
+    if (!scaleable.has(unit))
+        lockScale = 0
 
     // Define metric prefixes and their factors
     const prefixes = [

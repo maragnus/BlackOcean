@@ -1,5 +1,6 @@
-﻿using BlackOcean.Simulation.Definitions;
-using static BlackOcean.Simulation.ShipSystems.Status;
+﻿using BlackOcean.Simulation.ControlPanels;
+using BlackOcean.Simulation.Definitions;
+using static BlackOcean.Simulation.ControlPanels.Status;
 
 namespace BlackOcean.Simulation.ShipSystems;
 
@@ -21,7 +22,7 @@ public class ControlSystem : ShipSystem
     public StorageSystem? EnergyShieldStorage { get; set; }
     public StorageSystem? AblativeShieldStorage { get; set; }
 
-    public ControlPanel ControlPanel { get; } = new();
+    public ControlPanels.ControlPanel ControlPanel { get; } = new();
 
     private List<ShipSystem>? systems;
     private List<EnergyGenerator> generators = default!;
@@ -65,16 +66,16 @@ public class ControlSystem : ShipSystem
         SetStorageMeter(ControlPanel.EmergencyBattery, BackupBattery?.Capacity ?? 0, 0.25, 0.5);
     }
 
-    private void SetGeneratorMeter(Meter meter, double max, double warnPercent, double dangerPercent)
+    private void SetGeneratorMeter(Gauge gauge, double max, double warnPercent, double dangerPercent)
     {
-        meter.Max = max;
-        meter.Bands = Band.Build(Danger, (max * dangerPercent, Warn), (max * warnPercent, Safe));
+        gauge.Max = max;
+        gauge.Bands = Band.Build(Danger, (max * dangerPercent, Warn), (max * warnPercent, Safe));
     }
     
-    private void SetStorageMeter(Meter meter, double max, double dangerPercent, double warnPercent)
+    private void SetStorageMeter(Gauge gauge, double max, double dangerPercent, double warnPercent)
     {
-        meter.Max = max;
-        meter.Bands = Band.Build(Danger, (max * dangerPercent, Warn), (max * warnPercent, Safe));
+        gauge.Max = max;
+        gauge.Bands = Band.Build(Danger, (max * dangerPercent, Warn), (max * warnPercent, Safe));
     }
 
     public override void Simulate(SimulationContext context)

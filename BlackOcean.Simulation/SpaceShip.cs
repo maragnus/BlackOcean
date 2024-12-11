@@ -1,4 +1,5 @@
 ﻿using BlackOcean.Simulation.Definitions;
+using BlackOcean.Simulation.ShipSystems;
 
 namespace BlackOcean.Simulation;
 
@@ -89,6 +90,33 @@ public abstract class SystemizedBody(string name) : SpaceBody(name)
 public class SpaceShip(string name) : SystemizedBody(name)
 {
     public ShipHull Hull { get; set; } = ShipHull.EmptyHull;
+
+    public void Refuel()
+    {
+        // Fill the fuel tanks
+        foreach (var generator in Systems.OfType<EnergyGenerator>())
+            FillStorage(generator.Fuel);
+
+        // Fill batteries
+        FillStorage(Materials.Electricity);
+        
+        // Fill shields
+        FillStorage(Materials.ShieldEnergy);
+        FillStorage(Materials.AblativeShields);
+    }
+
+    public void FillStorage(Material material)
+    {
+        var storage = Systems.OfType<StorageSystem>()
+            .Where(x=>x.Material == material)
+            .ToList();
+        if (storage.Count == 0) return;
+        
+        var capacity = storage.DefaultIfEmpty().Sum(x => x?.Capacity ?? 0);
+        if (capacity < Materials.Epsilon) return;
+        
+        DepositResource(material, capacity);
+    }
 }
 
 public abstract class ShipHull(string name) : ShipSystem(name)

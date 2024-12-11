@@ -1,8 +1,8 @@
 import {LitElement, html, css, TemplateResult, svg} from 'lit'
 import {customElement, property} from 'lit/decorators.js'
-import "./../components"
-import { ScaledValue, scaleValue, Unit, UnitInterval } from "./../units"
-import { cache } from '../cache'
+import "./AriesLabel"
+import { ScaledValue, scaleValue, Unit, UnitInterval } from "../Unit"
+import { cache } from '../Cache'
 
 const METER_SIZE = 64
 const METER_PATH_LENGTH = 360
@@ -17,8 +17,8 @@ interface Band {
     label: string
 }
 
-@customElement("aries-meter")
-export class AriesMeter extends LitElement {
+@customElement("a-gauge")
+export class AriesGauge extends LitElement {
     @property({attribute: true, type: String})
     icon: string | undefined = undefined
 
@@ -91,7 +91,7 @@ export class AriesMeter extends LitElement {
         const unitOffset = offset + 14
 
         return svg`
-            <circle cx=${offset} cy=${offset} r=${radius} class="val" pathLength=${METER_PATH_LENGTH} stroke-dasharray=${valueDashArray} stroke-dashoffset=${valueDashOffset} />
+            <circle cx=${offset} cy=${offset} r=${radius} class="val" pathLength=${METER_PATH_LENGTH} stroke-dasharray=${valueDashArray} stroke-dashoffset=${valueDashOffset}></circle>
             <text x=${offset} y=${offset} text-anchor="middle" dominant-baseline="middle" class=${valueClass}>${v.scaledValue}</text>
             <text x=${offset} y=${unitOffset} text-anchor="middle" dominant-baseline="middle" class="unit">${v.unitAbbreviation}</text>
         `

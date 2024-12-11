@@ -1,6 +1,6 @@
-﻿import {ControlPanel} from "./ControlPanel"
+﻿import {Band, ControlPanel} from "./ControlPanel"
 
-export type SubscriptionCallback = (updatedValue: unknown) => void
+export type SubscriptionCallback = (key: string, value: unknown) => void
 
 export class ControlPanelManager {
     private subscriptions: Map<string, SubscriptionCallback[]> = new Map()
@@ -46,7 +46,14 @@ export class ControlPanelManager {
         for (let i = 1; i <= keys.length; i++) {
             const currentKey = keys.slice(0, i).join('.')
             if (this.subscriptions.has(currentKey)) {
-                this.subscriptions.get(currentKey)!.forEach(callback => callback(updatedValue))
+                this.subscriptions.get(currentKey)!.forEach(callback => {
+                    try {
+                        callback(currentKey, updatedValue)
+                    }
+                    catch (error) {
+                        console.error(`Property ${currentKey} subscription failed.`, error, updatedValue);
+                    }
+                })
             }
         }
     }
@@ -115,11 +122,18 @@ export class ControlPanelManager {
         // Replace the control panel
         this.controlPanel = controlPanel
 
+        console.info(controlPanel)
+
         // Notify all subscribers that it has been changed
         for (const [key, subscribers] of this.subscriptions) {
             const value = this.getValue(key)
             for (const callback of subscribers) {
-                callback(value)
+                try {
+                    callback(key, value)
+                }
+                catch (error) {
+                    console.error(`Property ${key} subscription failed.`, error, value);
+                }
             }
         }
     }
@@ -132,3 +146,9 @@ export class ControlPanelManager {
 }
 
 export const controlPanelManager = new ControlPanelManager()
+
+export function translateBands(bands: Band[]): string {
+    if (bands.length == 0) return "safe";
+    return bands[0].status.toString().toLowerCase() + ' '
+        + bands.slice(1).map(b => `${b.value} ${b.status.toString().toLowerCase()}`).join(' ')
+}
