@@ -1,5 +1,6 @@
 ﻿using BlackOcean.Simulation.ControlPanels;
 using BlackOcean.Simulation.Definitions;
+using BlackOcean.Simulation.Definitions.PrefabModels;
 using static BlackOcean.Simulation.ControlPanels.Status;
 
 namespace BlackOcean.Simulation.ShipSystems;
@@ -16,13 +17,14 @@ public class ControlSystem : ShipSystem
     public EnergyGenerator? BackupEnergyGenerator { get; set; }
     public StorageSystem? BackupFuelStorage { get; set; }
     public StorageSystem? BackupBattery { get; set; }
+    public StorageSystem? Coolant { get; set; }
 
     public ShieldGenerator? EnergyShieldGenerator { get; set; }
     public ShieldGenerator? AblativeShieldGenerator { get; set; }
     public StorageSystem? EnergyShieldStorage { get; set; }
     public StorageSystem? AblativeShieldStorage { get; set; }
 
-    public ControlPanels.ControlPanel ControlPanel { get; } = new();
+    public ControlPanel ControlPanel { get; } = new();
 
     private List<ShipSystem>? systems;
     private List<EnergyGenerator> generators = default!;
@@ -52,11 +54,26 @@ public class ControlSystem : ShipSystem
         EnergyShieldStorage = stores[Materials.ShieldEnergy].FirstOrDefault();
         AblativeShieldGenerator = shields[ShieldType.Ablative].FirstOrDefault();
         AblativeShieldStorage = stores[Materials.AblativeShields].FirstOrDefault();
+        Coolant = stores[Materials.Heat].FirstOrDefault();
         
         CoolantStorage = stores[Materials.Heat].FirstOrDefault();
         ActiveCooling = coolers.FirstOrDefault();
         PassiveCooling = coolers.Skip(1).FirstOrDefault();
 
+        // Interior Safe: 0-50 µSv/h,  Warn: 50-500 µSv/h,  Danger: 500+ µSv/h
+        ControlPanel.InteriorExposure.Interval = "hour";
+        ControlPanel.InteriorExposure.Bands = Band.Build(Safe, (0.000050, Warn), (0.000500, Danger));
+        ControlPanel.InteriorExposure.Min = 0.00002; //   20 µSv/h
+        ControlPanel.InteriorExposure.Max = 0.00100; // 1000 µSv/h
+        ControlPanel.InteriorExposure.Scale = Scale.Logarithmic;
+
+        // Exterior Safe: 0-500 µSv/h,  Warn: 500-1000 µSv/h,  Danger: 1000+ µSv/h
+        ControlPanel.ExteriorExposure.Interval = "hour";
+        ControlPanel.ExteriorExposure.Bands = Band.Build(Safe, (0.000500, Warn), (0.001000, Danger));
+        ControlPanel.ExteriorExposure.Min = 0.000100; //   20 µSv/h
+        ControlPanel.ExteriorExposure.Max = 0.001500; // 1500 µSv/h
+        ControlPanel.ExteriorExposure.Scale = Scale.Logarithmic;
+        
         SetGeneratorMeter(ControlPanel.Generated, generators.Sum(x => x.BaseOutput) * 1.5, 0.33, 0.66);
         SetGeneratorMeter(ControlPanel.Draw, powered.Sum(x => x.BaseConsumption) * 1.5, 0.33, 0.66);
         
@@ -83,16 +100,34 @@ public class ControlSystem : ShipSystem
         if (systems is null) Initialize();
         
         ControlPanel.Reactor.Populate(MainEnergyGenerator);
-        ControlPanel.EmergencyReactor.Populate(MainEnergyGenerator);
+        ControlPanel.EmergencyReactor.Populate(BackupEnergyGenerator);
         ControlPanel.EnergyShield.Populate(EnergyShieldGenerator);
         ControlPanel.AblativeShield.Populate(AblativeShieldGenerator);
         ControlPanel.Radiator.Populate(PassiveCooling);
         ControlPanel.Cooler.Populate(ActiveCooling);
         ControlPanel.EmergencyPower.Populate(BackupBattery);
+        ControlPanel.Fuel.Populate(MainFuelStorage);
+        ControlPanel.EmergencyFuel.Populate(BackupFuelStorage);
+        ControlPanel.Battery.Populate(MainBattery);
+        ControlPanel.EmergencyBattery.Populate(BackupBattery);
+        
+        ControlPanel.LifeSupport.Populate(null);
+        ControlPanel.ImpulseDrive.Populate(null);
+        ControlPanel.WarpDrive.Populate(null);
+        ControlPanel.EnergyWeapon.Populate(null);
+        ControlPanel.Scanner.Populate(null);
+        ControlPanel.Communications.Populate(null);
+
+        ControlPanel.HeatGain.Value = powered.Sum(x => x.CurrentHeatOutput);
+        ControlPanel.HeatPurge.Value = coolers.Sum(x => x.Output);
+        ControlPanel.HeatStore.Populate(Coolant);
         
         ControlPanel.Generated.Value = generators.Sum(x => x.CurrentOutput);
         ControlPanel.Draw.Value = powered.Sum(x => x.CurrentConsumption);
         ControlPanel.Battery.Value = MainBattery?.Amount ?? 0;
         ControlPanel.EmergencyBattery.Value = BackupBattery?.Amount ?? 0;
+
+        ControlPanel.InteriorExposure.Value = 0.000050; // 50 µSv/h 
+        ControlPanel.ExteriorExposure.Value = 0.000450; // 450 µSv/h 
     }
 }

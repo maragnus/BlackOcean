@@ -26,6 +26,7 @@ public class ControlPanel
     public Gauge Fuel = new() { Name = "Fuel", Unit = "liter", Min = 0, Max = 1, Bands = Band.Build(Safe) };
     public Gauge EmergencyFuel = new() { Name = "EP Fuel", Unit = "liter", Min = 0, Max = 1, Bands = Band.Build(Safe) };
     
+    public Gauge AblativeShielding = new() { Name = "ABL", Unit = "percent", Min = 0, Max = 1, Bands = Band.Build(Danger, (0.33, Warn), (0.66, Safe)) };
     public Gauge ForwardShield = new() { Name = "F SHD", Unit = "percent", Min = 0, Max = 1, Bands = Band.Build(Danger, (0.33, Warn), (0.66, Safe)) };
     public Gauge AftShield = new() { Name = "A SHD", Unit = "percent", Min = 0, Max = 1, Bands = Band.Build(Danger, (0.33, Warn), (0.66, Safe)) };
     
@@ -38,6 +39,6 @@ public class ControlPanel
     public Gauge HeatPurge = new() { Name = "Heat Purge", Unit = "watt", Min = 0, Max = 10000, Bands = Band.Build(Safe) };
     public Gauge HeatStore = new() { Name = "Heat Store", Unit = "joule", Min = 0, Max = 100000, Bands = Band.Build(Safe) };
     
-    public Gauge InteriorExposure = new() { Name = "Int Exp", Unit = "sievert", Min = 0, Max = 5, Bands = Band.Build(Safe, (3.5, Warn), (4, Danger)) };
-    public Gauge ExteriorExposure = new() { Name = "Ext Exp", Unit = "sievert", Min = 0, Max = 15, Bands = Band.Build(Safe, (10, Warn), (13, Danger)) };
+    public Gauge InteriorExposure = new() { Name = "Int Exp", Unit = "sievert", Interval = "hour", Min = 0, Max = 5, Bands = Band.Build(Safe, (3.5, Warn), (4, Danger)) };
+    public Gauge ExteriorExposure = new() { Name = "Ext Exp", Unit = "sievert", Interval = "hour", Min = 0, Max = 15, Bands = Band.Build(Safe, (10, Warn), (13, Danger)) };
 }

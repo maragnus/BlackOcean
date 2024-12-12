@@ -2,18 +2,19 @@
 
 public enum PowerLevel
 {
-    Hibernate = 0,
-    Suspend = 1,
-    Standard = 2,
-    Boost = 3,
-    Overdrive = 4
+    Shutdown = 0,
+    Hibernate = 1,
+    Suspend = 2,
+    Standard = 3,
+    Boost = 4,
+    Overdrive = 5
 }
 
 public abstract class PoweredShipSystem : ShipSystem
 {
     public bool IsOperating { get; private set; }
     public bool Shutdown { get; set; }
-    public PowerLevel PowerLevel { get; set; }
+    public PowerLevel TargetPowerLevel { get; set; }
     
     public double CurrentPowerLevel { get; private set; }
     public double CurrentConsumption { get; private set; }
@@ -38,11 +39,12 @@ public abstract class PoweredShipSystem : ShipSystem
 
     public void Calculate(SimulationContext context)
     {
-        var idealPowerLevel = Shutdown ? 0 : Math.Clamp((double)PowerLevel, 0.0, 4.0);
-        CurrentPowerLevel = Math.Clamp(MathD.Approach(CurrentPowerLevel, idealPowerLevel, LevelPerSecond * context.DeltaTime), 0.0, 4.0);
-
-        if (Math.Abs(CurrentPowerLevel - idealPowerLevel) < LevelPerSecond)
-            CurrentPowerLevel = idealPowerLevel;
+        if (TargetPowerLevel == PowerLevel.Shutdown) // Use Shutdown = true instead
+            TargetPowerLevel = PowerLevel.Hibernate;
+        
+        var idealPowerLevel = Shutdown ? 0 : Math.Clamp((double)TargetPowerLevel, 0.0, 4.0);
+        var currentPowerLevel = Math.Clamp(CurrentPowerLevel, 0.0, 4.0);
+        CurrentPowerLevel = MathD.Approach(currentPowerLevel, idealPowerLevel, LevelPerSecond * context.DeltaTime);
 
         if (Shutdown && CurrentPowerLevel <= LevelPerSecond)
         {

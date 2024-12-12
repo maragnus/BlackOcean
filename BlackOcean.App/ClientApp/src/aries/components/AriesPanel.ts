@@ -24,11 +24,11 @@ export class AriesPanel extends LitElement {
                     inset 0 0 var(--panel-bloom-size) var(--panel-bloom-color);
             }
 
-            ::slotted(:first-child),
+            /* ::slotted(:first-child),
             ::slotted(:last-child) {
                 padding-left: var(--edge-gap);
                 padding-right: var(--edge-gap);
-            }
+            } */
             ::slotted(:not(:first-child)) {
                 border-top: 1px solid var(--border-light);
             }

@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { PoweredSystem } from '../../controlpanel/ControlPanel';
+import { PoweredSystem, Status } from '../../controlpanel/ControlPanel';
 import { DisplayElement } from './DisplayElement';
 import '../components/AriesEngineeringSlider';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -25,13 +25,28 @@ export class DisplaySystem extends DisplayElement {
         this.requestUpdate()
     }
 
+    static emptySystem: PoweredSystem = {
+        abbreviation: "N/A",
+        currentHeat: 0,
+        currentLevel: 0,
+        currentOutput: 0,
+        heatBands: [ { value: 0, status: Status.Safe } ],
+        icon: "fal fa-link-simple-slash",
+        levelStatuses: [ Status.Safe, Status.Safe, Status.Safe, Status.Warn, Status.Danger ],
+        maxLevel: 5,
+        minLevel: 1,
+        name: "Not Installed",
+        nominalOutput: 0,
+        operating: false,
+        powered: false,
+        setLevel: 1
+    }
+
     override render() {
-        const g = this.system
-        if (g === undefined)
-            return html`<aries-engineering-slider label="N/A" icon="fal fa-link-simple-slash" value=0 progress=0></aries-engineering-slider>`
-        else
-            return html`<aries-engineering-slider ?active=${g.powered} toggle label=${this.label} sup=${ifDefined(this.sup)} 
-                watts=${g.currentOutput} maxwatts=${g.nominalOutput} min=${g.minLevel} max=${g.maxLevel} value=${g.setLevel} 
-                progress=${g.currentLevel} icon=${ifDefined(this.icon)}></aries-engineering-slider>`
+        const g = this.system ?? DisplaySystem.emptySystem;
+        console.log(this.label, g)
+        return html`<aries-engineering-slider ?active=${g.powered} toggle label=${this.label} sup=${ifDefined(this.sup)} 
+            watts=${g.currentOutput} maxwatts=${g.nominalOutput} min=${g.minLevel} max=${g.maxLevel} value=${g.setLevel} 
+            progress=${g.currentLevel} icon=${ifDefined(this.icon)}></aries-engineering-slider>`
     }
 }

@@ -1,4 +1,4 @@
-import {LitElement, html, css, PropertyValues} from 'lit';
+import {LitElement, html, css} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {FlexLayoutStyles} from '../Styles';
 
@@ -23,23 +23,19 @@ export class AriesCell extends LitElement {
     @property({attribute: true, type: Boolean})
     center: boolean = false
 
-    override updated(changedProperties: PropertyValues): void {
-        if (changedProperties.has('fill') 
-            || changedProperties.has('layout')
-            || changedProperties.has('justify')
-            || changedProperties.has('align')
-            || changedProperties.has('center')
-            || changedProperties.has('content')
-        ) {
-            const justify = this.center ? 'center' : this.justify;
+    @property({attribute: true, type: Boolean})
+    endcap: boolean = false
 
-            this.className = 
-                (this.fill ? "f-fill " : "")
-                + (this.content || this.layout === 'none' ? "f-content " : "")
-                + `f-${this.layout} `
-                + `fjc-${justify} `
-                + `fac-${this.align}`;
-        }
+    override updated(): void {
+        const justify = this.center ? 'center' : this.justify;
+
+        this.className = 
+            (this.fill ? "f-fill " : "")
+            + (this.content || this.layout === 'none' ? "f-content " : "")
+            + (this.endcap ? "f-endcap " : "")
+            + `f-${this.layout} `
+            + `fjc-${justify} `
+            + `fac-${this.align}`;
     }
 
     static override get styles() {
@@ -54,6 +50,10 @@ export class AriesCell extends LitElement {
                 }
                 :host(.f-column) ::slotted(*:not(:first-child)) {
                     border-top: 1px solid var(--border-light);
+                }
+                :host(.f-endcap) {
+                    padding-left: var(--edge-gap);
+                    padding-right: var(--edge-gap);
                 }
             `
         ];

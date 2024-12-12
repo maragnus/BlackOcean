@@ -43,12 +43,18 @@ export class ControlPanelManager {
      * Notify subscribers of a specific key and all parent keys.
      */
     private notifySubscribers(keys: string[], updatedValue: unknown): void {
+        const notified = new Set<string>();
+
         for (let i = 1; i <= keys.length; i++) {
             const currentKey = keys.slice(0, i).join('.')
+            if (notified.has(currentKey)) continue
+            notified.add(currentKey)
+
             if (this.subscriptions.has(currentKey)) {
                 this.subscriptions.get(currentKey)!.forEach(callback => {
+                    const value = this.getValue(currentKey);
                     try {
-                        callback(currentKey, updatedValue)
+                        callback(currentKey, value)
                     }
                     catch (error) {
                         console.error(`Property ${currentKey} subscription failed.`, error, updatedValue);
@@ -147,8 +153,8 @@ export class ControlPanelManager {
 
 export const controlPanelManager = new ControlPanelManager()
 
-export function translateBands(bands: Band[]): string {
-    if (bands.length == 0) return "safe";
+export function translateBands(bands: Band[] | undefined): string {
+    if (bands === undefined || bands.length == 0) return "safe";
     return bands[0].status.toString().toLowerCase() + ' '
         + bands.slice(1).map(b => `${b.value} ${b.status.toString().toLowerCase()}`).join(' ')
 }

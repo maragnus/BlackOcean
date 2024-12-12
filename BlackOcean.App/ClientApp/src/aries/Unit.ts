@@ -59,6 +59,7 @@ export const unitAbbreviations: Record<string, string> = {
 export interface ScaledValue {
     value: number
     scaledValue: number
+    displayValue: number
     unit: Unit
     interval: UnitInterval | undefined
     unitAbbreviation: string
@@ -104,6 +105,10 @@ export function scaleValue(value: number, unit: Unit | undefined, interval: Unit
     // Scale the value
     const scaledValue = value / bestPrefix.factor;
 
+    const displayValue = scaledValue > 100
+        ? Math.floor(scaledValue) 
+        : (Math.floor(scaledValue * 100) / 100)
+
     const unitInterval = interval ? `/${interval}` : '';
     const unitName = `${bestPrefix.name}${unit}${unitInterval}`;
 
@@ -113,6 +118,7 @@ export function scaleValue(value: number, unit: Unit | undefined, interval: Unit
     return {
         value,
         scaledValue,
+        displayValue,
         unit, 
         interval,
         unitAbbreviation,

@@ -24,6 +24,7 @@ public abstract class Scenario() : ISimulated
         ship.Sector = sector;
         ship.Refuel();
         ship.AddSystem(controlPanel);
+        ship.PowerOn();
         
         var player = new Player
         {

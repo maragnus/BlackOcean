@@ -6,6 +6,7 @@ import "./AriesLabel"
 import "./AriesButton"
 import "./AriesSlider"
 import { TextStyles } from '../Styles'
+import { scaleValue } from '../Unit'
 
 @customElement("aries-engineering-slider")
 export class AriesEngineeringSlider extends LitElement {
@@ -61,12 +62,14 @@ export class AriesEngineeringSlider extends LitElement {
                 (this.watts > this.maxwatts ? "error" : "warn");
 
         const icon = this.icon ? html`
-        <a-stack layout="row" justify="center">
-            <a-icon icon=${this.icon} size="xl"></a-icon>
-        </a-stack>
-        ` : undefined;
+            <a-stack layout="row" justify="center">
+                <a-icon icon=${this.icon} size="xl"></a-icon>
+            </a-stack>
+            ` : undefined;
 
         const sup = this.sup ? html`<sup>${this.sup}</sup>` : undefined
+        const watts = scaleValue(this.watts, "watt", undefined, 2)
+        const maxWatts = scaleValue(this.maxwatts, "watt", undefined, 2)
 
         return html`
             ${icon}
@@ -74,8 +77,8 @@ export class AriesEngineeringSlider extends LitElement {
                 <aries-slider min=${this.min} max=${this.max} value=${this.value} progress=${ifDefined(this.progress)} box="safe safe safe warn danger"></aries-slider>
             </a-stack>
             <a-stack layout="column">
-                <a-label center typo=${wattLabelClass} size="sm">${this.watts} KW</a-label>
-                <a-label center typo="info" size="sm">${this.maxwatts} KW</a-label>
+                <a-label center typo=${wattLabelClass} size="sm">${watts.displayValue} ${watts.unitAbbreviation}</a-label>
+                <a-label center typo="info" size="sm">${maxWatts.displayValue} ${maxWatts.unitAbbreviation}</a-label>
             </a-stack>
             <a-stack layout="row" justify="center">
                 <a-button ?toggle=${this.toggle} ?active=${this.active}>${this.label}${sup}</a-button>

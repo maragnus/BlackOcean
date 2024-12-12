@@ -2,7 +2,7 @@
 
 public partial class ModelDefinition
 {
-    public Dictionary<string, object> Diff(object? newModel, object? oldModel, bool apply)
+    public Dictionary<string, object> Diff(object? newModel, object? oldModel, bool apply, double epsilon = 0.0001)
     {
         var changes = new Dictionary<string, object>();
         if (newModel == null && oldModel == null)

@@ -18,6 +18,7 @@ export interface ControlPanel {
     purge: Button
     fuel: Gauge
     emergencyFuel: Gauge
+    ablativeShielding: Gauge
     forwardShield: Gauge
     aftShield: Gauge
     generated: Gauge
@@ -35,10 +36,17 @@ export interface Gauge {
     [index: string]: unknown
     name: string
     unit: string
+    interval: string | undefined
     min: number
     max: number
     value: number
     bands: Band[]
+    scale: Scale
+}
+
+export enum Scale {
+    Linear,
+    Logarithmic,
 }
 
 export interface Band {

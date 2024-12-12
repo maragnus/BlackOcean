@@ -3,7 +3,6 @@ using System.Text.Json;
 using BlackOcean.Common;
 using BlackOcean.Simulation;
 using BlackOcean.Simulation.ControlPanels;
-using BlackOcean.Simulation.ShipSystems;
 
 namespace BlackOcean.App;
 
@@ -77,10 +76,18 @@ public class WebSocketConnection
         // TODO: parse, verify, and queue messages
     }
     
-    public async Task ProcessAsync()
+    public async Task<bool> ProcessAsync()
     {
         await ReceiveMessages();
-        await SendMessages();
+        
+        if (Socket.State is WebSocketState.Open or WebSocketState.CloseReceived)
+        {
+            await SendMessages();
+            return true;
+        }
+
+        // Returning false removes connection from the list
+        return false;
     }
 
     private record ReplaceMessage(ReplaceBody ControlPanel);
@@ -90,24 +97,31 @@ public class WebSocketConnection
     
     private async Task SendMessages()
     {
-        _writeBuffer.SetLength(0);
-
-        if (_controlPanelClone is null)
+        try
         {
-            _logger.LogInformation("Sending new state");
+            _writeBuffer.SetLength(0);
 
-            _controlPanelClone = ModelUtil.DeepClone(Player.ControlPanel);
-            ModelUtil.Serialize(_writeBuffer, new ReplaceMessage(new ReplaceBody(_controlPanelClone)));
+            if (_controlPanelClone is null)
+            {
+                _logger.LogInformation("Sending new state");
+
+                _controlPanelClone = ModelUtil.DeepClone(Player.ControlPanel);
+                ModelUtil.Serialize(_writeBuffer, new ReplaceMessage(new ReplaceBody(_controlPanelClone)));
+                await Socket.SendAsync(_writeBuffer.ToArray(), WebSocketMessageType.Text, true, CancellationToken.None);
+                return;
+            }
+
+            var diff = ModelUtil.DiffApply(Player.ControlPanel, _controlPanelClone);
+            if (diff.Count == 0) return;
+            _logger.LogInformation("Sending {Count} updates", diff.Count);
+
+            ModelUtil.Serialize(_writeBuffer, new UpdateMessage(new UpdateBody(diff)));
             await Socket.SendAsync(_writeBuffer.ToArray(), WebSocketMessageType.Text, true, CancellationToken.None);
-            return;
         }
-        
-        var diff = ModelUtil.DiffApply(Player.ControlPanel, _controlPanelClone);
-        if (diff.Count == 0) return;
-        _logger.LogInformation("Sending {Count} updates", diff.Count);
-
-        ModelUtil.Serialize(_writeBuffer, new UpdateMessage(new UpdateBody(diff)));
-        await Socket.SendAsync(_writeBuffer.ToArray(), WebSocketMessageType.Text, true, CancellationToken.None);
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while sending state");
+        }
     }
 
     private async Task ReceiveMessages()

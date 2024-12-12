@@ -25,10 +25,16 @@ public sealed class GameService(Game game, ILogger<GameService> logger)
     private async Task UpdateConnections()
     {
         var tasks = _connections.Keys
-            .Select(c => c.ProcessAsync());
+            .Select(async c => await ProcessConnection(c));
         await Task.WhenAll(tasks);
     }
 
+    private async Task ProcessConnection(WebSocketConnection connection)
+    {
+        if (!await connection.ProcessAsync())
+            RemoveConnection(connection);
+    }
+    
     public void AddConnection(WebSocketConnection connection)
     {
         logger.LogInformation("Adding connection {Connection}", connection);

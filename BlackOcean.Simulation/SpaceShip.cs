@@ -91,6 +91,15 @@ public class SpaceShip(string name) : SystemizedBody(name)
 {
     public ShipHull Hull { get; set; } = ShipHull.EmptyHull;
 
+    public void PowerOn()
+    {
+        foreach (var system in Systems.OfType<PoweredShipSystem>())
+        {
+            system.TargetPowerLevel = PowerLevel.Standard;
+            system.Shutdown = false;
+        }
+    }
+    
     public void Refuel()
     {
         // Fill the fuel tanks

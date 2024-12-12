@@ -24,7 +24,7 @@ public class ShipTests
         ship.AddSystem(fuel);
         ship.AddSystem(reactor);
         ship.DepositResource(Materials.Uranium, 100.0);
-        reactor.PowerLevel = PowerLevel.Standard;
+        reactor.TargetPowerLevel = PowerLevel.Standard;
         
         // Simulate 0 seconds to initialize everything
         InitializeShip(ship);
@@ -55,7 +55,7 @@ public class ShipTests
         ship.AddSystem(fuel);
         ship.AddSystem(reactor);
         ship.DepositResource(Materials.Uranium, 100.0);
-        reactor.PowerLevel = PowerLevel.Standard;
+        reactor.TargetPowerLevel = PowerLevel.Standard;
         
         // Initialize and verify baseline
         InitializeShip(ship);

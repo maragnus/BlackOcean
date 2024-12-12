@@ -15,7 +15,7 @@ export const FlexLayoutStyles = css`
         justify-content: flex-start;
         align-items: flex-start;
     }
-    :host(.f-fill) { flex-grow: 1; }
+    :host(.f-fill) { flex: 1; }
 
     :host(.fjc-start) { justify-content: flex-start; }
     :host(.fjc-center) { justify-content: center; }

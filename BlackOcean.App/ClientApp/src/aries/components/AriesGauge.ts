@@ -3,6 +3,7 @@ import {customElement, property} from 'lit/decorators.js'
 import "./AriesLabel"
 import { ScaledValue, scaleValue, Unit, UnitInterval } from "../Unit"
 import { cache } from '../Cache'
+import { ifDefined } from 'lit/directives/if-defined.js'
 
 const METER_SIZE = 64
 const METER_PATH_LENGTH = 360
@@ -21,9 +22,6 @@ interface Band {
 export class AriesGauge extends LitElement {
     @property({attribute: true, type: String})
     icon: string | undefined = undefined
-
-    @property({attribute: true, type: String})
-    label: string = "SYS"
 
     @property({attribute: true, type: Number})
     min: number = 0
@@ -45,6 +43,9 @@ export class AriesGauge extends LitElement {
 
     @property({attribute: true, type: Number})
     lockscale: number | undefined = undefined
+
+    @property({attribute: true})
+    scale: "linear" | "log" | "log1p" | "log2" | "log10" = "linear"
 
     private buildBands(bands: Array<Band>): TemplateResult {
         const strokeWidth = METER_STROKE_WIDTH
@@ -75,7 +76,8 @@ export class AriesGauge extends LitElement {
         const startPos = METER_PATH_LENGTH * 0.625
 
         const clampedValue = Math.max(Math.min(this.value, this.max), this.min)
-        const value = (clampedValue - this.min) / (this.max - this.min)
+        const value = (clampedValue - this.min) / (this.max - this.min) // 0..1
+
         let valueClass = bands[0].label
 
         for (const band of bands) {
@@ -83,16 +85,18 @@ export class AriesGauge extends LitElement {
             valueClass = band.label
         }
 
+        const position = value
         const valueDashOffset = startPos
-        const valueLength = value * METER_PATH_LENGTH * METER_SCALE
+        const valueLength = position * METER_PATH_LENGTH * METER_SCALE
         const valueDashArray = `${valueLength} ${METER_PATH_LENGTH - valueLength}`
     
         const v: ScaledValue = scaleValue(this.value, this.unit, this.interval, this.lockscale)
         const unitOffset = offset + 14
-
+        const displayValue = v.displayValue
+        
         return svg`
             <circle cx=${offset} cy=${offset} r=${radius} class="val" pathLength=${METER_PATH_LENGTH} stroke-dasharray=${valueDashArray} stroke-dashoffset=${valueDashOffset}></circle>
-            <text x=${offset} y=${offset} text-anchor="middle" dominant-baseline="middle" class=${valueClass}>${v.scaledValue}</text>
+            <text x=${offset} y=${offset} text-anchor="middle" dominant-baseline="middle" class=${valueClass}>${displayValue}</text>
             <text x=${offset} y=${unitOffset} text-anchor="middle" dominant-baseline="middle" class="unit">${v.unitAbbreviation}</text>
         `
     }
@@ -191,8 +195,7 @@ export class AriesGauge extends LitElement {
                 ${bandCircles}
                 ${valueCircle}
             </svg>
-            <a-label center style="info" size="sm">${this.label}</a-label>
+            <a-label center style="info" size="sm" icon=${ifDefined(this.icon)}><slot></slot></a-label>
         `
     }
 }
-
