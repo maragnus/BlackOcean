@@ -1,11 +1,14 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { translateBands } from '../../controlpanel/ControlPanelManager';
-import { Gauge, Scale, Status } from '../../controlpanel/ControlPanel';
+import { translateBands, translateScale } from '../../controlpanel/ControlPanelManager';
+import { Band, Gauge, Scale, Status } from '../../controlpanel/ControlPanel';
 import { DisplayElement } from './DisplayElement';
 import '../components/AriesGauge';
 import { Unit, UnitInterval } from '../Unit';
 import { ifDefined } from 'lit/directives/if-defined.js'
+import { GaugeScale } from '../components/AriesGauge';
+
+const DEFAULT_BANDS: Band[] = [ { value: 0, status: Status.None } ];
 
 @customElement("display-gauge")
 export class DisplayGauge extends DisplayElement {
@@ -22,7 +25,7 @@ export class DisplayGauge extends DisplayElement {
     }
 
     static defaultGauge: Gauge = {
-        bands: [ { value: 0, status: Status.Safe } ],
+        bands: DEFAULT_BANDS,
         interval: undefined,
         max: 100,
         min: 0,
@@ -35,11 +38,8 @@ export class DisplayGauge extends DisplayElement {
     override render() {
         const g = this.gauge ?? DisplayGauge.defaultGauge
         const interval = g.interval as UnitInterval
-        const logarithmic = g.scale === Scale.Logarithmic
-
-        // if (g === undefined)
-            // return html`<a-gauge value="0" bands="safe" unit="none" icon="fal fa-link-simple-slash"><a-label>N/A</a-label></a-gauge>`
-        // else
-        return html`<a-gauge bands=${translateBands(g.bands)} min=${g.min} max=${g.max} unit=${g.unit as Unit} interval=${ifDefined(interval)} value=${g.value} ?logarithmic=${logarithmic} icon=${ifDefined(this.icon)}><slot></slot></a-gauge>`
+        const scale = translateScale(g.scale) as GaugeScale
+        const bands = translateBands(g.bands)
+        return html`<a-gauge bands=${bands} min=${g.min} max=${g.max} unit=${g.unit as Unit} interval=${ifDefined(interval)} value=${g.value} scale=${scale} icon=${ifDefined(this.icon)}><slot></slot></a-gauge>`
     }
 }

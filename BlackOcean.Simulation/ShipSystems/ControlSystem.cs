@@ -65,14 +65,14 @@ public class ControlSystem : ShipSystem
         ControlPanel.InteriorExposure.Bands = Band.Build(Safe, (0.000050, Warn), (0.000500, Danger));
         ControlPanel.InteriorExposure.Min = 0.00002; //   20 µSv/h
         ControlPanel.InteriorExposure.Max = 0.00100; // 1000 µSv/h
-        ControlPanel.InteriorExposure.Scale = Scale.Logarithmic;
+        ControlPanel.InteriorExposure.Scale = Scale.Log10;
 
         // Exterior Safe: 0-500 µSv/h,  Warn: 500-1000 µSv/h,  Danger: 1000+ µSv/h
         ControlPanel.ExteriorExposure.Interval = "hour";
         ControlPanel.ExteriorExposure.Bands = Band.Build(Safe, (0.000500, Warn), (0.001000, Danger));
         ControlPanel.ExteriorExposure.Min = 0.000100; //   20 µSv/h
         ControlPanel.ExteriorExposure.Max = 0.001500; // 1500 µSv/h
-        ControlPanel.ExteriorExposure.Scale = Scale.Logarithmic;
+        ControlPanel.ExteriorExposure.Scale = Scale.Log10;
         
         SetGeneratorMeter(ControlPanel.Generated, generators.Sum(x => x.BaseOutput) * 1.5, 0.33, 0.66);
         SetGeneratorMeter(ControlPanel.Draw, powered.Sum(x => x.BaseConsumption) * 1.5, 0.33, 0.66);
@@ -86,13 +86,13 @@ public class ControlSystem : ShipSystem
     private void SetGeneratorMeter(Gauge gauge, double max, double warnPercent, double dangerPercent)
     {
         gauge.Max = max;
-        gauge.Bands = Band.Build(Danger, (max * dangerPercent, Warn), (max * warnPercent, Safe));
+        gauge.Bands = Band.Build(Danger, (max * warnPercent, Warn), (max * dangerPercent, Safe));
     }
     
-    private void SetStorageMeter(Gauge gauge, double max, double dangerPercent, double warnPercent)
+    private void SetStorageMeter(Gauge gauge, double max, double warnPercent, double dangerPercent)
     {
         gauge.Max = max;
-        gauge.Bands = Band.Build(Danger, (max * dangerPercent, Warn), (max * warnPercent, Safe));
+        gauge.Bands = Band.Build(Danger, (max * warnPercent, Warn), (max * dangerPercent, Safe));
     }
 
     public override void Simulate(SimulationContext context)

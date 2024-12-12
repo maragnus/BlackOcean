@@ -27,27 +27,21 @@ const sassConfig = {
 
 export default {
   input: 'src/index.ts',
+  treeshake: false,
   output: {
-    // name: "aries",
     format: 'iife',
-    sourcemap: true,
     file: 'build/bundle.js',
+//    format: 'cjs',
+//    dir: 'build',
   },
-
-  // output: {
-  //   name: "aries",
-  //   format: 'cjs',
-  //   sourcemap: true,
-  //   dir: 'build',
-  // },
-
+  
   plugins: [
     sass(sassConfig),
-    minifyHTML(),
+    // minifyHTML(),
     copy(copyConfig),
     typescript(),
     resolve(), // tells Rollup how to find date-fns in node_modules
-    commonjs(), // converts date-fns to ES modules
+    commonjs({sourceMap: false}), // converts date-fns to ES modules
     production && terser() // minify, but only in production
   ],
   preserveEntrySignatures: false,

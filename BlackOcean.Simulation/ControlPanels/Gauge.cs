@@ -5,7 +5,10 @@ namespace BlackOcean.Simulation.ControlPanels;
 public enum Scale
 {
     Linear,
-    Logarithmic,
+    Log,
+    Log1p,
+    Log2,
+    Log10
 }
 
 public class Gauge
@@ -22,7 +25,7 @@ public class Gauge
     public void Populate(StorageSystem? storageSystem)
     {
         Name = $"{storageSystem?.Material.Abbreviation ?? "N/A"} Store";
-        Max = storageSystem?.Capacity ?? 0;
+        Max = storageSystem?.Capacity ?? 100;
         Value = storageSystem?.Amount ?? 0;
     }
 }

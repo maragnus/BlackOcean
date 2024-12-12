@@ -7,3 +7,4 @@ riderModule.iml
 node_modules/
 **/ClientApp/build/
 .idea/
+.user

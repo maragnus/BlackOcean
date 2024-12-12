@@ -1,4 +1,4 @@
-﻿import {Band, ControlPanel} from "./ControlPanel"
+﻿import {Band, ControlPanel, Scale, Status} from "./ControlPanel"
 
 export type SubscriptionCallback = (key: string, value: unknown) => void
 
@@ -153,8 +153,19 @@ export class ControlPanelManager {
 
 export const controlPanelManager = new ControlPanelManager()
 
+const bandMap: Record<Status, string> = {
+    [Status.None]: "none",
+    [Status.Safe]: "safe",
+    [Status.Warn]: "warn",
+    [Status.Danger]: "danger",
+}
+
 export function translateBands(bands: Band[] | undefined): string {
-    if (bands === undefined || bands.length == 0) return "safe";
-    return bands[0].status.toString().toLowerCase() + ' '
-        + bands.slice(1).map(b => `${b.value} ${b.status.toString().toLowerCase()}`).join(' ')
+    if (bands === undefined || bands.length == 0) return bandMap[Status.None];
+    return bandMap[bands[0].status] + ' '
+        + bands.slice(1).map(b => `${b.value} ${bandMap[b.status]}`).join(' ')
+}
+
+export function translateScale(scale: Scale): string {
+    return scale.toString().toLowerCase()
 }

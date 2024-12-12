@@ -45,8 +45,11 @@ export interface Gauge {
 }
 
 export enum Scale {
-    Linear,
-    Logarithmic,
+    Linear = "Linear",
+    Log = "Log",
+    Log1p = "Log1p",
+    Log2 = "Log2",
+    Log10 = "Log10",
 }
 
 export interface Band {
@@ -56,9 +59,10 @@ export interface Band {
 }
 
 export enum Status {
-    Safe,
-    Warn,
-    Danger,
+    None = "None",
+    Safe = "Safe",
+    Warn = "Warn",
+    Danger = "Danger",
 }
 
 export interface Button {

@@ -44,7 +44,7 @@ public partial class ModelDefinition
         {
             sb.AppendLine($"export enum {type.Name} {{");
             foreach (var value in Enum.GetValues(type))
-                sb.AppendLine($"    {value.ToString()},");
+                sb.AppendLine($"""    {value.ToString()} = "{value.ToString()}",""");
         }
         else
         {

@@ -30,7 +30,7 @@ export class DisplaySystem extends DisplayElement {
         currentHeat: 0,
         currentLevel: 0,
         currentOutput: 0,
-        heatBands: [ { value: 0, status: Status.Safe } ],
+        heatBands: [ { value: 0, status: Status.None } ],
         icon: "fal fa-link-simple-slash",
         levelStatuses: [ Status.Safe, Status.Safe, Status.Safe, Status.Warn, Status.Danger ],
         maxLevel: 5,
@@ -44,7 +44,6 @@ export class DisplaySystem extends DisplayElement {
 
     override render() {
         const g = this.system ?? DisplaySystem.emptySystem;
-        console.log(this.label, g)
         return html`<aries-engineering-slider ?active=${g.powered} toggle label=${this.label} sup=${ifDefined(this.sup)} 
             watts=${g.currentOutput} maxwatts=${g.nominalOutput} min=${g.minLevel} max=${g.maxLevel} value=${g.setLevel} 
             progress=${g.currentLevel} icon=${ifDefined(this.icon)}></aries-engineering-slider>`
