@@ -100,21 +100,21 @@ public class SpaceShip(string name) : SystemizedBody(name)
         }
     }
     
-    public void Refuel()
+    public void Refuel(double percent = 1.0)
     {
         // Fill the fuel tanks
         foreach (var generator in Systems.OfType<EnergyGenerator>())
-            FillStorage(generator.Fuel);
+            FillStorage(generator.Fuel, percent);
 
         // Fill batteries
-        FillStorage(Materials.Electricity);
+        FillStorage(Materials.Electricity, percent);
         
         // Fill shields
-        FillStorage(Materials.ShieldEnergy);
-        FillStorage(Materials.AblativeShields);
+        FillStorage(Materials.ShieldEnergy, percent);
+        FillStorage(Materials.AblativeShields, percent);
     }
 
-    public void FillStorage(Material material)
+    public void FillStorage(Material material, double percent)
     {
         var storage = Systems.OfType<StorageSystem>()
             .Where(x=>x.Material == material)
@@ -124,7 +124,7 @@ public class SpaceShip(string name) : SystemizedBody(name)
         var capacity = storage.DefaultIfEmpty().Sum(x => x?.Capacity ?? 0);
         if (capacity < Materials.Epsilon) return;
         
-        DepositResource(material, capacity);
+        DepositResource(material, capacity * percent);
     }
 }
 

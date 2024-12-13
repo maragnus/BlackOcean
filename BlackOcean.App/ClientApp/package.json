@@ -43,7 +43,7 @@
     "build": "rollup -c",
     "clean": "rimraf ./build",
     "watch": "rollup -c -w",
-    "dev": "npm-run-all --parallel start watch",
+    "dev": "npm run build && npm start",
     "start": "serve build -p 44414"
   }
 }

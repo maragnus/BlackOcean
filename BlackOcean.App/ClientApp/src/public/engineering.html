@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="bundle.css"/>
     <script type="module" src="bundle.js"></script>
     <link rel="icon" type="image/png" href="favicon.png"/>
+    <title>ARIES : Engineering</title>
 </head>
 
 <body>
@@ -59,16 +60,16 @@
     </a-cell>
 
     <a-cell layout="row">
+      <a-cell layout="row" justify="center" fill content><display-gauge source="generated" icon="fal fa-battery">Gen<sup>+</sup></display-gauge></a-cell>
       <a-cell layout="row" justify="center" fill content><display-gauge source="draw" icon="fal fa-battery">Draw<sup>-</sup></display-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="generated" icon="fal fa-battery">Gen<sup>+</sup></display-gauge></a-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="fuel" icon="fal fa-atom">Fuel</display-gauge></a-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyBattery" icon="fal fa-battery-bolt">EP Bat</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyFuel" icon="fal fa-atom-simple">EP Fuel</display-gauge></a-cell>
     </a-cell>
     <a-cell layout="row">
-      <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyFuel" icon="fal fa-atom-simple">EP Fuel</display-gauge></a-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="battery" icon="fal fa-car-battery">Bat</display-gauge></a-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyBattery" icon="fal fa-battery-bolt">EP Bat</display-gauge></a-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="battery" icon="fal fa-car-battery">Bat</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="fuel" icon="fal fa-atom">Fuel</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="fuelConsumption" icon="fal fa-vial">Fuel<sup>--</sup></display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="fuelEfficiency" icon="fal fa-aperture">Fuel<sup>Eco</sup></display-gauge></a-cell>
     </a-cell>
   </aries-panel>
 
@@ -79,11 +80,11 @@
 
     <a-cell layout="row">
       <a-cell layout="row" justify="center" fill content><display-gauge source="heatGain" icon="fal fa-fire">Heat<sup>+</sup></display-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="heatPurge" icon="fal fa-snowflake">Heat<sup>-</sup></display-gauge></a-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="heatPurge" icon="fal fa-snowflake">Heat<sup>-</sup></display-gauge></a-cell>
     </a-cell>
     <a-cell layout="row">
-      <a-cell layout="row" justify="center" fill content><display-gauge source="heatStore" icon="fal fa-meter-fire">Heat</display-gauge></a-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="heatStore" icon="fal fa-meter-fire">Heat</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-cell>
     </a-cell>
   </aries-panel>
 
@@ -93,12 +94,12 @@
     </a-cell>
     
     <a-cell layout="row">
-      <a-cell fill center><display-gauge source="interiorExposure" icon="fal fa-circle-radiation">Int Exp</a-gauge></a-cell>
-      <a-cell fill center><display-gauge source="exteriorExposure" icon="fal fa-radiation">Ext Exp</a-gauge></a-cell>
+      <a-cell fill center><display-gauge source="interiorExposure" icon="fal fa-circle-radiation">Int Exp</display-gauge></a-cell>
+      <a-cell fill center><display-gauge source="exteriorExposure" icon="fal fa-radiation">Ext Exp</display-gauge></a-cell>
     </a-cell>
     <a-cell layout="row">
-      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-cell>
     </a-cell>
   </aries-panel>
 

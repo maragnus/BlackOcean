@@ -1,7 +1,7 @@
 import {LitElement, html, css, TemplateResult, svg} from 'lit'
 import {customElement, property} from 'lit/decorators.js'
 import "./AriesLabel"
-import { ScaledValue, scaleValue, Unit, UnitInterval } from "../Unit"
+import { ScaledValue, scaleValue, Unit } from "../Unit"
 import { cache } from '../Cache'
 import { ifDefined } from 'lit/directives/if-defined.js'
 
@@ -49,7 +49,7 @@ export class AriesGauge extends LitElement {
     unit?: Unit
 
     @property({attribute: true})
-    interval?: UnitInterval
+    interval?: Unit
 
     @property({attribute: true, type: Number})
     lockscale?: number = undefined
@@ -65,6 +65,9 @@ export class AriesGauge extends LitElement {
     @property({attribute: true})
     scale: GaugeScale = "linear"
 
+    @property({attribute: true})
+    indicator: "needle" | "bar" = "needle"
+    
     private normalizeValue(value: number): number {
         // Clamp the value
         const v = Math.min(Math.max(value, this.min), this.max)
@@ -134,20 +137,37 @@ export class AriesGauge extends LitElement {
         // Determine the band for the current value
         let valueClass = bands[0]?.label ?? "default"
         for (const band of bands) {
-            if (normValue < band.start) break
+            const startVal = this.normalizeValue(this.min + (band.start * (this.max - this.min)))
+            if (normValue < startVal) break
             valueClass = band.label
         }
 
-        const valueDashOffset = startPos
-        const valueLength = normValue * METER_PATH_LENGTH * METER_SCALE
-        const valueDashArray = `${valueLength} ${METER_PATH_LENGTH - valueLength}`
-
+        let indicatorClass: string
+        let valueDashOffset: number
+        let valueLength: number 
+        let valueDashArray: string
+        
+        switch (this.indicator) {
+            case "bar":
+                indicatorClass = "indicator bar"
+                valueDashOffset = startPos
+                valueLength = normValue * METER_PATH_LENGTH * METER_SCALE
+                valueDashArray = `${valueLength} ${METER_PATH_LENGTH - valueLength}`
+                break;
+            default:
+                indicatorClass = "indicator needle"
+                valueDashOffset = startPos
+                valueLength = normValue * METER_PATH_LENGTH * METER_SCALE - 4
+                valueDashArray = `0 ${valueLength} 8 ${METER_PATH_LENGTH - valueLength - 8}`
+                break;
+        }
+        
         const v: ScaledValue = scaleValue(this.value, this.unit, this.interval, this.lockscale)
         const unitOffset = offset + 14
         const displayValue = v.displayValue
 
         return svg`
-            <circle cx=${offset} cy=${offset} r=${radius} class="val" pathLength=${METER_PATH_LENGTH} stroke-dasharray=${valueDashArray} stroke-dashoffset=${valueDashOffset}></circle>
+            <circle cx=${offset} cy=${offset} r=${radius} class=${indicatorClass} pathLength=${METER_PATH_LENGTH} stroke-dasharray=${valueDashArray} stroke-dashoffset=${valueDashOffset}></circle>
             <text x=${offset} y=${offset} text-anchor="middle" dominant-baseline="middle" class=${valueClass}>${displayValue}</text>
             <text x=${offset} y=${unitOffset} text-anchor="middle" dominant-baseline="middle" class="unit">${v.unitAbbreviation}</text>
         `
@@ -224,9 +244,14 @@ export class AriesGauge extends LitElement {
             circle.none {
                 stroke: var(--meter-none);
             }
-            circle.val {
+            circle.indicator.bar {
                 stroke: var(--meter-value);
                 stroke-width: 5;
+                opacity: 1;
+            }
+            circle.indicator.needle {
+                stroke: var(--meter-value);
+                stroke-width: 10;
                 opacity: 1;
             }
             text {

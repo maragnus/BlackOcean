@@ -1,6 +1,4 @@
-﻿using Jitter2.Dynamics;
-
-namespace BlackOcean.Simulation;
+﻿namespace BlackOcean.Simulation;
 
 public interface ISimulated
 {

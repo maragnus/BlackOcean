@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using BlackOcean.Simulation;
 
 namespace BlackOcean.App;
@@ -65,7 +64,7 @@ public sealed class GameHostedService(GameService gameService, ILogger<GameHoste
         UpdateGame(null);
 
         // Start the update loop at 10 times per second (100ms intervals)
-        _timer = new Timer(UpdateGame, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
+        _timer = new Timer(UpdateGame, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(100));
         _clock.Start();
         
         return Task.CompletedTask;

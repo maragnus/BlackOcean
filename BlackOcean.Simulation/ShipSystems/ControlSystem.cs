@@ -1,6 +1,6 @@
 ﻿using BlackOcean.Simulation.ControlPanels;
 using BlackOcean.Simulation.Definitions;
-using BlackOcean.Simulation.Definitions.PrefabModels;
+using BlackOcean.Simulation.Internal;
 using static BlackOcean.Simulation.ControlPanels.Status;
 
 namespace BlackOcean.Simulation.ShipSystems;
@@ -95,6 +95,8 @@ public class ControlSystem : ShipSystem
         gauge.Bands = Band.Build(Danger, (max * warnPercent, Warn), (max * dangerPercent, Safe));
     }
 
+    private RandomDrift _radiationDrift = new(-100, 150, 10, 20, 0);
+    
     public override void Simulate(SimulationContext context)
     {
         if (systems is null) Initialize();
@@ -127,7 +129,12 @@ public class ControlSystem : ShipSystem
         ControlPanel.Battery.Value = MainBattery?.Amount ?? 0;
         ControlPanel.EmergencyBattery.Value = BackupBattery?.Amount ?? 0;
 
-        ControlPanel.InteriorExposure.Value = 0.000050; // 50 µSv/h 
-        ControlPanel.ExteriorExposure.Value = 0.000450; // 450 µSv/h 
+        ControlPanel.FuelConsumption.Value = MainEnergyGenerator?.CurrentConsumption ?? 0;
+        ControlPanel.FuelEfficiency.Value = MainEnergyGenerator?.CurrentEfficiency ?? 0;
+        
+        _radiationDrift.Update(context.DeltaTime);
+        
+        ControlPanel.ExteriorExposure.Value = 0.000450 + _radiationDrift.CurrentValue * 0.000001; // 450 µSv/h 
+        ControlPanel.InteriorExposure.Value = ControlPanel.ExteriorExposure.Value / 9; // 50 µSv/h 
     }
 }

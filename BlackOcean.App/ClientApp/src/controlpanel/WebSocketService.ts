@@ -65,7 +65,6 @@ export class WebSocketClientService {
      * Handle the `Updates` command to update properties in the ControlPanel.
      */
     private handleUpdates(updates: Record<string, unknown>): void {
-        console.log("Handling Updates command:", updates);
         controlPanelManager.updateControlPanel(updates);
     }
 }

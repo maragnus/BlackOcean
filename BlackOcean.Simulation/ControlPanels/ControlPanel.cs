@@ -24,6 +24,8 @@ public class ControlPanel
     public Button Purge = new() { Name = "PURG", Icon = "eject" };
 
     public Gauge Fuel = new() { Name = "Fuel", Unit = "liter", Min = 0, Max = 1, Bands = Band.Build(Safe) };
+    public Gauge FuelConsumption = new() { Name = "Fuel Consumption", Unit = "liter", Interval = "minute", Min = 0, Max = 1, Bands = Band.Build(Safe) };
+    public Gauge FuelEfficiency = new() { Name = "Fuel Efficiency", Unit = "joule", Interval = "liter", Min = 0, Max = 1, Bands = Band.Build(Safe) };
     public Gauge EmergencyFuel = new() { Name = "EP Fuel", Unit = "liter", Min = 0, Max = 1, Bands = Band.Build(Safe) };
     
     public Gauge AblativeShielding = new() { Name = "ABL", Unit = "percent", Min = 0, Max = 1, Bands = Band.Build(Danger, (0.33, Warn), (0.66, Safe)) };

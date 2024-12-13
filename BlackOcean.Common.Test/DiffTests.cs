@@ -1,6 +1,5 @@
 using System.Text.Json;
 using BlackOcean.Simulation.ControlPanels;
-using BlackOcean.Simulation.ShipSystems;
 using static NUnit.Framework.Assert;
 
 namespace BlackOcean.Common.Test;

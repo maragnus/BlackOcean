@@ -12,14 +12,20 @@ public class PlayerManager(Game game) : IEnumerable<Player>
 
     public Player GetPlayer(string name)
     {
-        if (_players.TryGetValue(name, out var player)) 
-            return player;
-        return Game.Scenario.CreatePlayer(name);
+        lock (this)
+        {
+            if (_players.TryGetValue(name, out var player))
+                return player;
+            return Game.Scenario.CreatePlayer(name);
+        }
     }
 
     public void AddPlayer(Player player)
     {
-        _players.Add(player.Name, player); 
+        lock (this)
+        {
+            _players.Add(player.Name, player);
+        }
     }
 
     public IEnumerator<Player> GetEnumerator() => _players.Values.GetEnumerator();

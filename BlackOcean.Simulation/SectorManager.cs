@@ -91,6 +91,9 @@ public class Sector : IEquatable<Sector>, ISimulated, IReadOnlyCollection<SpaceB
     public int Count => _bodies.Count;
     IEnumerator IEnumerable.GetEnumerator() => _bodies.GetEnumerator();
 
+    private const double MinimumSimulationStep = 0.100;
+    private double _lastWorldStep = 0.0;
+    
     public void Simulate(SimulationContext context)
     {
         if (SimulationLevel == SimulationLevel.Full && World is null)
@@ -100,11 +103,22 @@ public class Sector : IEquatable<Sector>, ISimulated, IReadOnlyCollection<SpaceB
 
         foreach (var body in _bodies)
             body.Simulate(context);
-
-        if (context.DeltaTime > 0)
-            World?.Step(context.DeltaTime);
+        
+        SimulateWorld(context);
     }
-    
+
+    private void SimulateWorld(SimulationContext context)
+    {
+        if (_lastWorldStep == 0) 
+            _lastWorldStep = context.SimulationTime;
+        
+        var elapsedTime = context.SimulationTime - _lastWorldStep;
+        if (elapsedTime <= MinimumSimulationStep) return;
+        
+        World?.Step(elapsedTime);
+        _lastWorldStep = context.SimulationTime;
+    }
+
     public bool Equals(Sector? other)
     {
         if (other is null) return false;

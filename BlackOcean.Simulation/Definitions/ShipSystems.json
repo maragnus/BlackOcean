@@ -24,7 +24,7 @@
     {
       "Name": "Uranium Store 1kL",
       "Material": "Uranium",
-      "Capacity": 1000
+      "Capacity": 0.001
     },
     {
       "Name": "Shield Energy Store 100MJ",
@@ -42,8 +42,8 @@
     {
       "Name": "Uranium Generator 5kW",
       "Material": "Uranium",
-      "Efficiency": 0.8,
-      "Output": 0.500,
+      "Efficiency": 0.95,
+      "Output": 5000,
       "ThermalLimit": 800
     }
   ],

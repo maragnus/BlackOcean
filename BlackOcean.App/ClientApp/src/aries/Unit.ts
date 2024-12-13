@@ -2,7 +2,6 @@ export type Unit = 'none' | 'percent' | 'meter' | 'liter' | 'gram' | 'kelvin' | 
     | 'volt' | 'amp' | 'ohm' | 'watt' | 'joule' | 'coulomb' | 'hertz' | 'henry' | 'farad' | 'byte' | 'bit' 
     | 'beats per minute' | 'millimeter of mercury' | 'celsius' | 'gram per deciliter' | 'ph' | 'newton' 
     | 'gravity' | 'pascal' | 'mole' | 'candela' | 'lumen' | 'lux' | 'decibel' | 'gray' | 'sievert';
-export type UnitInterval = "second" | "minute" | "hour" | "day" | "year";
 
 export const unitAbbreviations: Record<string, string> = {
     none: "",
@@ -61,20 +60,26 @@ export interface ScaledValue {
     scaledValue: number
     displayValue: number
     unit: Unit
-    interval: UnitInterval | undefined
+    interval: Unit | undefined
     unitAbbreviation: string
     unitName: string
 }
 
-const scaleable: Set<Unit> = new Set<Unit>([ 
+const scalable: Set<Unit> = new Set<Unit>([ 
     'meter', 'liter', 'gram', 'kelvin', 'volt', 'amp', 'ohm', 'watt', 'joule', 'coulomb', 'hertz', 'henry', 'farad', 
     'gram per deciliter', 'pascal', 'mole', 'candela', 'lumen', 'lux', 'gray', 'sievert'
 ]);
 
-export function scaleValue(value: number, unit: Unit | undefined, interval: UnitInterval | undefined = undefined, lockScale: number | undefined = undefined): ScaledValue {
+function trimDecimals(v: number) {
+    if (v >= 100) return Math.floor(v)
+    if (v >= 10) return Math.floor(v * 10) / 10
+    return Math.floor(v * 100) / 100
+}
+
+export function scaleValue(value: number, unit: Unit | undefined, interval: Unit | undefined = undefined, lockScale: number | undefined = undefined): ScaledValue {
     unit ??= "none"
 
-    if (!scaleable.has(unit))
+    if (!scalable.has(unit))
         lockScale = 0
 
     // Define metric prefixes and their factors
@@ -104,10 +109,7 @@ export function scaleValue(value: number, unit: Unit | undefined, interval: Unit
 
     // Scale the value
     const scaledValue = value / bestPrefix.factor;
-
-    const displayValue = scaledValue > 100
-        ? Math.floor(scaledValue) 
-        : (Math.floor(scaledValue * 100) / 100)
+    const displayValue = trimDecimals(scaledValue)
 
     const unitInterval = interval ? `/${interval}` : '';
     const unitName = `${bestPrefix.name}${unit}${unitInterval}`;

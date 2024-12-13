@@ -17,6 +17,8 @@ export interface ControlPanel {
     cooler: Button
     purge: Button
     fuel: Gauge
+    fuelConsumption: Gauge
+    fuelEfficiency: Gauge
     emergencyFuel: Gauge
     ablativeShielding: Gauge
     forwardShield: Gauge

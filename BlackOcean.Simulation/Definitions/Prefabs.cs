@@ -59,9 +59,17 @@ namespace BlackOcean.Simulation.Definitions
             Hull[] Hulls
         );
 
-        internal record Storage(string Name, string Material, int Capacity, double? TransferRate)
+        internal record Storage(string Name, string Material, double Capacity, double? TransferRate)
         {
-            public StorageSystem Build() => new PrefabStorageSystem(Name, Materials.AllMaterials[Material], Capacity, TransferRate ?? Capacity);
+            public StorageSystem Build()
+            {
+                var material = Materials.AllMaterials[Material];
+                // Heat and energy are provided as megajoules
+                var multiplier = material == Materials.Heat || material == Materials.Electricity || material == Materials.ShieldEnergy ? 1_000_000 : 1;
+                var capacity = Capacity * multiplier;
+                var transferRate = (TransferRate ?? Capacity) * multiplier;
+                return new PrefabStorageSystem(Name, material, capacity, transferRate);
+            }
         }
 
         internal record Energy(string Name, string Material, double Efficiency, double Output, double ThermalLimit)

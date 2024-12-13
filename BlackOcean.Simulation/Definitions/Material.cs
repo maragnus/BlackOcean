@@ -125,7 +125,7 @@ public static class Materials
     public static readonly Material Carbohydrates = new(Liquid, "Carbohydrates", "MNC", 600.0, 5200.0);
     public static readonly Material Fats = new(Liquid, "Fats", "MNF", 600.0, 8100.0);
     public static readonly Material Micronutrients = new(Liquid, "Micronutrients", "MNV", 600.0, 100.0);
-    public static readonly Material Meals = new(Solid, "Meals", "MNV", 800.0, 1200.0);
+    public static readonly Material Meals = new(Solid, "Meals", "MEAL", 800.0, 1200.0);
 
     // Soil
     public static readonly Material Soil = new(Solid, "Soil", "Soil", 1200.0);

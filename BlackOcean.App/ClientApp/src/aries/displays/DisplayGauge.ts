@@ -4,7 +4,7 @@ import { translateBands, translateScale } from '../../controlpanel/ControlPanelM
 import { Band, Gauge, Scale, Status } from '../../controlpanel/ControlPanel';
 import { DisplayElement } from './DisplayElement';
 import '../components/AriesGauge';
-import { Unit, UnitInterval } from '../Unit';
+import { Unit } from '../Unit';
 import { ifDefined } from 'lit/directives/if-defined.js'
 import { GaugeScale } from '../components/AriesGauge';
 
@@ -19,8 +19,7 @@ export class DisplayGauge extends DisplayElement {
     gauge: Gauge | undefined;
 
     protected override callback(_key: string, value: unknown): void {
-        const gauge = value as Gauge;
-        this.gauge = gauge;
+        this.gauge = value as Gauge;
         this.requestUpdate()
     }
 
@@ -37,7 +36,7 @@ export class DisplayGauge extends DisplayElement {
 
     override render() {
         const g = this.gauge ?? DisplayGauge.defaultGauge
-        const interval = g.interval as UnitInterval
+        const interval = g.interval as Unit
         const scale = translateScale(g.scale) as GaugeScale
         const bands = translateBands(g.bands)
         return html`<a-gauge bands=${bands} min=${g.min} max=${g.max} unit=${g.unit as Unit} interval=${ifDefined(interval)} value=${g.value} scale=${scale} icon=${ifDefined(this.icon)}><slot></slot></a-gauge>`

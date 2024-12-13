@@ -113,7 +113,6 @@ public class WebSocketConnection
 
             var diff = ModelUtil.DiffApply(Player.ControlPanel, _controlPanelClone);
             if (diff.Count == 0) return;
-            _logger.LogInformation("Sending {Count} updates", diff.Count);
 
             ModelUtil.Serialize(_writeBuffer, new UpdateMessage(new UpdateBody(diff)));
             await Socket.SendAsync(_writeBuffer.ToArray(), WebSocketMessageType.Text, true, CancellationToken.None);

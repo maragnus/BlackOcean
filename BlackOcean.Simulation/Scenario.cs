@@ -22,7 +22,7 @@ public abstract class Scenario() : ISimulated
         var ship = Prefabs.GetShip(shipName);
         ship.Name = playerName;
         ship.Sector = sector;
-        ship.Refuel();
+        ship.Refuel(0.5);
         ship.AddSystem(controlPanel);
         ship.PowerOn();
         

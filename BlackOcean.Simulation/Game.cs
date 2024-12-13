@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using BlackOcean.Simulation.ShipSystems;
-
-namespace BlackOcean.Simulation;
+﻿namespace BlackOcean.Simulation;
 
 public sealed class Game
 {

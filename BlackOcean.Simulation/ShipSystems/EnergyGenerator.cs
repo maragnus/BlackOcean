@@ -12,12 +12,12 @@ public abstract class EnergyGenerator : PoweredShipSystem
 
     private double _fuelConsumption;
     private double _energyStored;
-    private double _energyThreshold = 0.01;
+    private double _energyThreshold = 0.00000001;
 
     public double FuelStored { get; private set; }
     
-    // TODO: Set this to ten seconds of fuel
-    public virtual double FuelCapacity { get; } = 1;
+    // Set this to one second of fuel
+    public virtual double FuelCapacity => _fuelConsumption * 1.0;
 
     public EnergyGenerator() {}
     public EnergyGenerator(string name) : this()
@@ -28,13 +28,13 @@ public abstract class EnergyGenerator : PoweredShipSystem
     public override void Simulate(SimulationContext context)
     {
         if (Parent is null) return;
+
+        // Calculate the consumption of fuel per second based on generator output and material energy density
+        _fuelConsumption = BaseOutput / Fuel.MegaJoulesPerLiter;
         
-        // TODO: Top off the tank, this should average once per second
+        // Top off the tank, this should average twice per second
         if (FuelStored < FuelCapacity * 0.5)
             FuelStored += Parent.WithdrawResource(Fuel, FuelCapacity - FuelStored);
-
-        // Calculate the consumption of fuel based on generator output and material energy density
-        _fuelConsumption = BaseOutput / Fuel.MegaJoulesPerLiter;
         
         // Perform the power level calculations for efficiency
         base.Simulate(context);
