@@ -8,3 +8,7 @@ node_modules/
 **/ClientApp/build/
 .idea/
 .user
+Black Ocean.sln.DotSettings.user
+# Contains licensed data
+BlackOcean.App/ClientApp/src/aries/Icons.ts
+BlackOcean.App/ClientApp/.npmrc

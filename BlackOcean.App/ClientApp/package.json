@@ -7,12 +7,12 @@
   "keywords": [],
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.7.1",
-    "@fortawesome/pro-light-svg-icons": "^6.7.1",
-    "@fortawesome/pro-solid-svg-icons": "^6.7.1",
     "lit": "^3.2.1"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.1",
+    "@fortawesome/pro-light-svg-icons": "^6.7.1",
+    "@fortawesome/pro-solid-svg-icons": "^6.7.1",
     "@eslint/js": "^9.15.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.1.0",
@@ -41,6 +41,7 @@
   "scripts": {
     "postinstall": "npm rm @types/glob @types/minimatch",
     "build": "rollup -c",
+    "build:icons": "node --experimental-strip-types buildIcons.mts",
     "clean": "rimraf ./build",
     "watch": "rollup -c -w",
     "dev": "npm run build && npm start",

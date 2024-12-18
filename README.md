@@ -66,15 +66,21 @@ See also:
    ```bash
    cd BlackOcean.App/ClientApp
    ```
-2. Install dependencies:
+2. Update `.npmrc` using the provided `.npmrc.example` with your FontAwesome `authToken`.
+   Follow the [Using a Package Manager](https://docs.fontawesome.com/web/setup/packages) guide
+3. Install dependencies:
    ```bash
    npm install
    ```
-3. Build and serve the frontend:
+4. Build FontAwesome data file:
+   ```bash
+   npm run build:icons
+   ```
+5. Build and serve the frontend:
    ```bash
    npm run dev
    ```
-4. The frontend will start on http://localhost:44414 by default.
+6. The frontend will start on http://localhost:44414 by default.
 
 ---
 
