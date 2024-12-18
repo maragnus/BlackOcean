@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using BlackOcean.Common;
 using BlackOcean.Simulation.ControlPanels;
+using BlackOcean.Simulation.ShipSystems;
 
 namespace BlackOcean.Simulation;
 
@@ -10,22 +12,10 @@ public class PlayerManager(Game game) : IEnumerable<Player>
 
     public int Count => _players.Count;
 
-    public Player GetPlayer(string name)
+    public async Task<Player> GetPlayer(string name)
     {
-        lock (this)
-        {
-            if (_players.TryGetValue(name, out var player))
-                return player;
-            return Game.Scenario.CreatePlayer(name);
-        }
-    }
-
-    public void AddPlayer(Player player)
-    {
-        lock (this)
-        {
-            _players.Add(player.Name, player);
-        }
+        return await Game.Execute(() => 
+            _players.GetOrAdd(name, key => Game.Scenario.CreatePlayer(key)));
     }
 
     public IEnumerator<Player> GetEnumerator() => _players.Values.GetEnumerator();

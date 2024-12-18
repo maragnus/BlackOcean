@@ -1,6 +1,6 @@
-import {LitElement, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
-import {FlexLayoutStyles} from '../Styles';
+import {LitElement, html, PropertyValues} from 'lit'
+import {customElement, property} from 'lit/decorators.js'
+import {FlexLayoutStyles} from '../Styles'
 
 @customElement("a-stack")
 export class AriesStack extends LitElement {
@@ -9,13 +9,13 @@ export class AriesStack extends LitElement {
     fill: boolean = false
 
     @property({attribute: true})
-    layout: "row" | "column" = "column";
+    layout: "row" | "column" = "column"
     
     @property({attribute: true})
-    justify: "start" | "center" | "end" | "space-between" | "space-around" | "space-evenly" | "stretch" = "start";
+    justify: "start" | "center" | "end" | "space-between" | "space-around" | "space-evenly" | "stretch" = "start"
 
     @property({attribute: true})
-    align: "start" | "center" | "end" | "space-between" | "space-around" | "space-evenly" | "stretch" = "start";
+    align: "start" | "center" | "end" | "space-between" | "space-around" | "space-evenly" | "stretch" = "start"
     
     static override get styles() {
         return FlexLayoutStyles
@@ -32,11 +32,11 @@ export class AriesStack extends LitElement {
             (this.fill ? "f-fill " : "")
             + `f-${this.layout} `
             + `fjc-${this.justify} `
-            + `fac-${this.align}`;
+            + `fac-${this.align}`
         }
     }
 
     override render() {
-        return html`<slot></slot>`;
+        return html`<slot></slot>`
     }
 }

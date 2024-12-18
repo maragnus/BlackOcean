@@ -76,13 +76,13 @@ These materials are used for constructing, repairing, and upgrading spaceship sy
 ### **Atmospheric Gases**
 Gases are essential for maintaining breathable atmospheres, propulsion, and cooling systems.
 
-| Name             | Abbreviation | Mass (g/L) | Description                          |
-|------------------|--------------|------------|--------------------------------------|
-| Oxygen           | O2           | 260.0      | Vital for life support.              |
-| Nitrogen         | N2           | 233.0      | Provides atmospheric stability.      |
-| Carbon Dioxide   | CO2          | 350.0      | Byproduct of respiration.            |
-| Ammonia          | NH3          | 682.0      | Used in refrigeration and propulsion.|
-| Helium           | He           | 31.0       | Cooling systems and pressurization.  |
+|       Name       | Abbreviation | Mass (g/L) | Description                            |
+|:----------------:|--------------|------------|----------------------------------------|
+|      Oxygen      | O2           | 260.0      | Vital for life support.                |
+|     Nitrogen     | N2           | 233.0      | Provides atmospheric stability.        |
+|  Carbon Dioxide  | CO2          | 350.0      | Byproduct of respiration.              |
+|     Ammonia      | NH3          | 682.0      | Used in refrigeration and propulsion.  |
+|      Helium      | He           | 31.0       | Cooling systems and pressurization.    |
 
 **Game Usage:** Atmospheric gases support life systems, maintain pressure, and enable specific chemical reactions.
 

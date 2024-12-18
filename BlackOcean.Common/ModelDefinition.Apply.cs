@@ -2,7 +2,7 @@
 
 public partial class ModelDefinition
 {
-    public void Apply<TModel>(TModel model, Dictionary<string, object> diff)
+    public void Apply<TModel>(TModel model, Dictionary<string, object?> diff)
     {
         foreach (var (path, value) in diff)
             SetValueByPath(model!, path, value);
@@ -36,8 +36,10 @@ public partial class ModelDefinition
     private static void ApplyProperty(in PropertyDefinition property, object obj, object? value)
     {
         var propertyType = property.Type;
-        if (value == null)
+        if (value is null)
             property.Set(obj, null);
+        else if (propertyType == typeof(int) && value is double doubleValue)
+            property.Set(obj, (int)doubleValue);
         else if (propertyType.IsValueType || propertyType == typeof(string))
             property.Set(obj, value);
         else if (propertyType.IsArray)

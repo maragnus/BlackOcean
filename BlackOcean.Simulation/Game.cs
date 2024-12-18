@@ -7,6 +7,7 @@ public sealed class Game
     public FactionManager FactionManager { get; }
     public Scenario Scenario { get; private set; } = default!;
     public double StartTime { get; set; } = 0;
+    private readonly SemaphoreSlim _semaphore = new(1, 1);
     
     private Game()
     {
@@ -15,6 +16,19 @@ public sealed class Game
         FactionManager = new FactionManager(this);
     }
 
+    public async Task<TResult> Execute<TResult>(Func<TResult> action)
+    {
+        await _semaphore.WaitAsync();
+        try
+        {
+            return action();
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
+    }
+    
     public static Game StartScenario<TScenario>() where TScenario : Scenario, new()
     {
         var game = new Game();
@@ -30,10 +44,18 @@ public sealed class Game
     
     public void Simulate(double time, double deltaTime)
     {
-        var context = new SimulationContext(StartTime + time, deltaTime);
-        Scenario.Simulate(context);
-        FactionManager.Simulate(context);
-        SectorManager.Simulate(context);
+        _semaphore.Wait();
+        try
+        {
+            var context = new SimulationContext(StartTime + time, deltaTime);
+            Scenario.Simulate(context);
+            FactionManager.Simulate(context);
+            SectorManager.Simulate(context);
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
     }
 
     public void Initialize()

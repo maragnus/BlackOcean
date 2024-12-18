@@ -4,12 +4,12 @@ namespace BlackOcean.Common;
 
 public sealed partial class ModelDefinition
 {
-    public Type ModelType { get; set; }
-    private PropertyDefinition[] _properties;
-    private Dictionary<string, PropertyDefinition> _propertyDictionary;
-    private Func<object> _constructor;
+    public Type ModelType { get; }
+    private readonly PropertyDefinition[] _properties;
+    private readonly Dictionary<string, PropertyDefinition> _propertyDictionary;
+    private readonly Func<object> _constructor;
 
-    readonly record struct PropertyDefinition(
+    private readonly record struct PropertyDefinition(
         string Name,
         Type Type,
         Func<object, object?> Get,
@@ -17,16 +17,15 @@ public sealed partial class ModelDefinition
         Action<object, object> Cloner,
         bool IsNullable);
 
-    private static readonly Dictionary<Type, Common.ModelDefinition> Definitions = new(64);
+    private static readonly Dictionary<Type, ModelDefinition> Definitions = new(64);
 
-    public static Common.ModelDefinition GetDefinition(Type type)
+    public static ModelDefinition GetDefinition(Type type)
     {
-        if (Definitions.TryGetValue(type, out var definition))
-            return definition;
-        return Definitions[type] = new Common.ModelDefinition(type);
+        lock (Definitions)
+            return Definitions.GetOrAdd(type, key => new ModelDefinition(key));
     }
-    
-    public ModelDefinition(Type modelType)
+
+    private ModelDefinition(Type modelType)
     {
         var context = new NullabilityInfoContext();
         
@@ -57,13 +56,13 @@ public sealed partial class ModelDefinition
         _propertyDictionary = _properties.ToDictionary(p => p.Name);
     }
 
-    private static Func<object, object?> CreateGetter(FieldInfo property) => (obj) => property.GetValue(obj);
+    private static Func<object, object?> CreateGetter(FieldInfo property) => property.GetValue;
 
-    private static Func<object, object?> CreateGetter(PropertyInfo property) => (obj) => property.GetValue(obj);
+    private static Func<object, object?> CreateGetter(PropertyInfo property) => property.GetValue;
 
-    private static Action<object, object?> CreateSetter(FieldInfo property) => (obj, value) => property.SetValue(obj, value);
+    private static Action<object, object?> CreateSetter(FieldInfo property) => property.SetValue;
 
-    private static Action<object, object?> CreateSetter(PropertyInfo property) => (obj, value) => property.SetValue(obj, value);
+    private static Action<object, object?> CreateSetter(PropertyInfo property) => property.SetValue;
 
     // Potential optimizations:
     // var getMethod = property.GetGetMethod(false)!;

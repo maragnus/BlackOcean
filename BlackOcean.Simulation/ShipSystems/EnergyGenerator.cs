@@ -3,62 +3,65 @@ using BlackOcean.Simulation.Definitions;
 
 namespace BlackOcean.Simulation.ShipSystems;
 
-public abstract class EnergyGenerator : PoweredShipSystem
+public abstract class EnergyGenerator : PoweredShipComponent
 {
     public abstract Material Fuel { get; }
-    public override double BaseConsumption => _fuelConsumption;
+    public override double BaseConsumption { get; }
     public override double BaseHeatOutput => 1.0;
     public override double LevelPerSecond => 0.2; // 5 seconds per level
+    public MaterialStore FuelInput { get; set; }
+    public MaterialStore EnergyOutput { get; set; }
+    public override bool Automatable => true;
 
-    private double _fuelConsumption;
     private double _energyStored;
-    private double _energyThreshold = 0.00000001;
-
-    public double FuelStored { get; private set; }
-    
-    // Set this to one second of fuel
-    public virtual double FuelCapacity => _fuelConsumption * 1.0;
+    private const double EnergyThreshold = 1; // 1 watt
 
     public EnergyGenerator() {}
     public EnergyGenerator(string name) : this()
     {
         Name = name;
-    }
-    
-    public override void Simulate(SimulationContext context)
-    {
-        if (Parent is null) return;
 
         // Calculate the consumption of fuel per second based on generator output and material energy density
-        _fuelConsumption = BaseOutput / Fuel.MegaJoulesPerLiter;
+        BaseConsumption = BaseOutput / Fuel.MegaJoulesPerLiter;
+
+        FuelInput = Consumes(Fuel, BaseConsumption);
+        EnergyOutput = Supplies(Materials.Electricity, BaseOutput);
+    }
+
+    public override void Simulate(SimulationContext context)
+    {
+        if (Body is null) return;
+
+        // Convert 100% of the generator overage into heat
+        if (EnergyOutput.Amount > Materials.Epsilon)
+        {
+            var heat = EnergyOutput.Consume(EnergyOutput.Amount);
+            HeatOutput.Supply(heat);
+        }
         
-        // Top off the tank, this should average twice per second
-        if (FuelStored < FuelCapacity * 0.5)
-            FuelStored += Parent.WithdrawResource(Fuel, FuelCapacity - FuelStored);
+        // Standard: 1 output, 0.96 efficiency 
+        StandardHeatOutput = BaseOutput * (1 - BaseEfficiency * 0.96);
+        // Overdrive: 1.5 output, 0.9 efficiency 
+        OverdriveHeatOutput = (BaseOutput * 1.5) * (1 - BaseEfficiency * 0.9);
         
         // Perform the power level calculations for efficiency
         base.Simulate(context);
         
-        var fuelConsumed = CurrentConsumption * context.DeltaTime;
+        var consumed = FuelInput.Consume(CurrentConsumption * context.DeltaTime);
+        if (consumed < Materials.Epsilon) return;
+
+        var energy = consumed * Fuel.MegaJoulesPerLiter;
+        _energyStored += energy;
         
-        // TODO: Suddenly stop producing power when out of fuel
-        // Instead, lower the power level
-        if (FuelStored < fuelConsumed) return;
-        FuelStored -= fuelConsumed;
-        
-        // Supply power to ship
-        _energyStored += CurrentOutput;
+        // Estimate actual outputs
+        // TODO: Are these obsolete with the EnergyOutput.Trend and HeatOutput.Trend?
+        var output = energy / context.DeltaTime;
+        CurrentOutput = output * CurrentEfficiency;
+        CurrentHeatOutput = CurrentOutput - output;
         
         // Store energy up to _energyThreshold before submitting it to the system
-        if (_energyStored < _energyThreshold) return;
-        
-        var supplied = Parent.DepositResource(Materials.Electricity, _energyStored);
-        
-        // Convert excess power into heat
-        var overage = _energyStored - supplied;
-        var heatProduced = CurrentHeatOutput + overage;
-        AddHeat(heatProduced);
-        
+        if (_energyStored < EnergyThreshold) return;
+        EnergyOutput.Supply(_energyStored);
         _energyStored = 0;
     }
 }

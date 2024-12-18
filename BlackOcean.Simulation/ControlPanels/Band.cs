@@ -1,5 +1,6 @@
 ﻿namespace BlackOcean.Simulation.ControlPanels;
 
+[PublicAPI]
 public readonly record struct Band(double Value, Status Status)
 {
     public readonly static Band Default = new(0.0, Status.None);

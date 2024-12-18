@@ -1,7 +1,7 @@
 export type Unit = 'none' | 'percent' | 'meter' | 'liter' | 'gram' | 'kelvin' | 'second' | 'minute' | 'hour' | 'day' | 'year' 
     | 'volt' | 'amp' | 'ohm' | 'watt' | 'joule' | 'coulomb' | 'hertz' | 'henry' | 'farad' | 'byte' | 'bit' 
     | 'beats per minute' | 'millimeter of mercury' | 'celsius' | 'gram per deciliter' | 'ph' | 'newton' 
-    | 'gravity' | 'pascal' | 'mole' | 'candela' | 'lumen' | 'lux' | 'decibel' | 'gray' | 'sievert';
+    | 'gravity' | 'pascal' | 'mole' | 'candela' | 'lumen' | 'lux' | 'decibel' | 'gray' | 'sievert'
 
 export const unitAbbreviations: Record<string, string> = {
     none: "",
@@ -53,7 +53,7 @@ export const unitAbbreviations: Record<string, string> = {
     decibel: "dB",
     gray: "Gy",
     sievert: "Sv",
-};
+}
 
 export interface ScaledValue {
     value: number
@@ -68,7 +68,7 @@ export interface ScaledValue {
 const scalable: Set<Unit> = new Set<Unit>([ 
     'meter', 'liter', 'gram', 'kelvin', 'volt', 'amp', 'ohm', 'watt', 'joule', 'coulomb', 'hertz', 'henry', 'farad', 
     'gram per deciliter', 'pascal', 'mole', 'candela', 'lumen', 'lux', 'gray', 'sievert'
-]);
+])
 
 function trimDecimals(v: number) {
     if (v >= 100) return Math.floor(v)
@@ -93,29 +93,29 @@ export function scaleValue(value: number, unit: Unit | undefined, interval: Unit
         { factor: 1e6, abbreviation: "M", name: "mega" },
         { factor: 1e9, abbreviation: "G", name: "giga" },
         { factor: 1e10, abbreviation: "T", name: "tera" },
-    ];
+    ]
 
-    let bestPrefix = prefixes[0];
+    let bestPrefix = prefixes[0]
 
     if (lockScale !== undefined) {
         bestPrefix = prefixes[4 + lockScale]
     } else {
         // Select the best prefix based on the absolute value
         for (const prefix of prefixes) {
-            if (Math.abs(value) < prefix.factor) break;
-            bestPrefix = prefix;
+            if (Math.abs(value) < prefix.factor) break
+            bestPrefix = prefix
         }
     }
 
     // Scale the value
-    const scaledValue = value / bestPrefix.factor;
+    const scaledValue = value / bestPrefix.factor
     const displayValue = trimDecimals(scaledValue)
 
-    const unitInterval = interval ? `/${interval}` : '';
-    const unitName = `${bestPrefix.name}${unit}${unitInterval}`;
+    const unitInterval = interval ? `/${interval}` : ''
+    const unitName = `${bestPrefix.name}${unit}${unitInterval}`
 
-    const unitIntervalAbbreviation = interval ? `/${unitAbbreviations[interval]}` : '';
-    const unitAbbreviation = `${bestPrefix.abbreviation}${unitAbbreviations[unit]}${unitIntervalAbbreviation}`;
+    const unitIntervalAbbreviation = interval ? `/${unitAbbreviations[interval]}` : ''
+    const unitAbbreviation = `${bestPrefix.abbreviation}${unitAbbreviations[unit]}${unitIntervalAbbreviation}`
 
     return {
         value,
@@ -125,5 +125,5 @@ export function scaleValue(value: number, unit: Unit | undefined, interval: Unit
         interval,
         unitAbbreviation,
         unitName,
-    };
+    }
 }

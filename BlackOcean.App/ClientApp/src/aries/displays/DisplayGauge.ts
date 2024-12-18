@@ -1,14 +1,14 @@
-import { html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { translateBands, translateScale } from '../../controlpanel/ControlPanelManager';
-import { Band, Gauge, Scale, Status } from '../../controlpanel/ControlPanel';
-import { DisplayElement } from './DisplayElement';
-import '../components/AriesGauge';
-import { Unit } from '../Unit';
+import { html } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
+import { translateBands, translateScale } from '../../controlpanel/ControlPanelManager'
+import { Band, Gauge, Scale, Status } from '../../controlpanel/ControlPanel'
+import { DisplayElement } from './DisplayElement'
+import '../components/AriesGauge'
+import { Unit } from '../Unit'
 import { ifDefined } from 'lit/directives/if-defined.js'
-import { GaugeScale } from '../components/AriesGauge';
+import { GaugeScale } from '../components/AriesGauge'
 
-const DEFAULT_BANDS: Band[] = [ { value: 0, status: Status.None } ];
+const DEFAULT_BANDS: Band[] = [ { value: 0, status: Status.None } ]
 
 @customElement("display-gauge")
 export class DisplayGauge extends DisplayElement {
@@ -16,10 +16,10 @@ export class DisplayGauge extends DisplayElement {
     icon: string | undefined = undefined
 
     @property({attribute: false})
-    gauge: Gauge | undefined;
+    gauge: Gauge | undefined
 
     protected override callback(_key: string, value: unknown): void {
-        this.gauge = value as Gauge;
+        this.gauge = value as Gauge
         this.requestUpdate()
     }
 

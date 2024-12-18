@@ -18,7 +18,7 @@ interface Band {
     label: string
 }
 
-export type GaugeScale = "linear" | "log" | "log1p" | "log2" | "log10"
+export type GaugeScale = "linear" | "exp" | "log"
 
 @customElement("a-gauge")
 export class AriesGauge extends LitElement {
@@ -36,7 +36,7 @@ export class AriesGauge extends LitElement {
      * "safe 50 caution 80 danger"
      * This means:
      * - "safe" from min to 50
-     * - "caution" from 50 to 80
+     * - "warn" from 50 to 80
      * - "danger" from 80 to max
      */
     @property({attribute: true, type: String})
@@ -57,10 +57,8 @@ export class AriesGauge extends LitElement {
     /**
      * Supported scales:
      * - linear: (value-min)/(max-min)
+     * - exp: 
      * - log: (log(value)-log(min)) / (log(max)-log(min)) [natural log]
-     * - log1p: (log1p(value)-log1p(min)) / (log1p(max)-log1p(min))
-     * - log2: (log2(value)-log2(min)) / (log2(max)-log2(min))
-     * - log10: (log10(value)-log10(min)) / (log10(max)-log10(min))
      */
     @property({attribute: true})
     scale: GaugeScale = "linear"
@@ -69,32 +67,24 @@ export class AriesGauge extends LitElement {
     indicator: "needle" | "bar" = "needle"
     
     private normalizeValue(value: number): number {
-        // Clamp the value
-        const v = Math.min(Math.max(value, this.min), this.max)
-        
-        // Avoid issues with non-positive values in log scales
-        // For log-based scales, values must be > 0. If not, fallback to linear or handle gracefully.
-        // Here we handle gracefully by:
-        // - if min <= 0 for log scales, shift the range by adding (1 - min) if needed
-        //   This can break intended semantics, so ideally ensure your min > 0 for log scales.
-        // For simplicity, if scale is log and min <= 0, we fallback to linear.
         let scale = this.scale
-        if (this.min <= 0) scale = "linear" // fallback
-
         const min = this.min
         const max = this.max
+
+        const k = 1; // TODO: make adjustable?
+
+        // Avoid issues with non-positive values in log scales
+        // For log-based scales, values must be > 0. If not, fall back to exp.
+        if (min <= 0 && scale == "log") scale = "exp" // fallback
+        const v = Math.min(Math.max(value, min), max)
 
         if (max === min) return 0 // avoid division by zero if degenerate range
 
         switch (scale) {
             case "log":
                 return (Math.log(v) - Math.log(min)) / (Math.log(max) - Math.log(min))
-            case "log1p":
-                return (Math.log1p(v) - Math.log1p(min)) / (Math.log1p(max) - Math.log1p(min))
-            case "log2":
-                return (Math.log2(v) - Math.log2(min)) / (Math.log2(max) - Math.log2(min))
-            case "log10":
-                return (Math.log10(v) - Math.log10(min)) / (Math.log10(max) - Math.log10(min))
+            case "exp":
+                return (Math.exp(k * (v - min)) - 1) / (Math.exp(k * (max - min)) - 1);
             default:
                 return (v - min) / (max - min)
         }
@@ -119,6 +109,9 @@ export class AriesGauge extends LitElement {
             const length = (endVal - startVal) * METER_PATH_LENGTH * METER_SCALE - gap
             const dashOffset = startPos - start
             const dashArray = `${length} ${METER_PATH_LENGTH - length}`
+
+            if (length < bandGap + 1) continue;
+            
             circles.push(svg`<circle cx=${offset} cy=${offset} r=${radius} class=${band.label} pathLength=${METER_PATH_LENGTH} stroke-dasharray=${dashArray} stroke-dashoffset=${dashOffset} />`)
         }
 
@@ -157,7 +150,7 @@ export class AriesGauge extends LitElement {
             default:
                 indicatorClass = "indicator needle"
                 valueDashOffset = startPos
-                valueLength = normValue * METER_PATH_LENGTH * METER_SCALE - 4
+                valueLength = Math.max(normValue * METER_PATH_LENGTH * METER_SCALE - 4, 0)
                 valueDashArray = `0 ${valueLength} 8 ${METER_PATH_LENGTH - valueLength - 8}`
                 break;
         }

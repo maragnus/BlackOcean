@@ -1,52 +1,6 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using BlackOcean.Simulation;
+﻿using System.Diagnostics;
 
 namespace BlackOcean.App;
-
-
-public sealed class GameService(Game game, ILogger<GameService> logger)
-{
-    private Game Game { get; } = game;
-    private readonly ConcurrentDictionary<WebSocketConnection, byte> _connections = [];
-
-    public void Initialize() => Game.Initialize();
-
-    public void Shutdown() => Game.Shutdown();
-
-    public async Task Update(double now, double deltaTime)
-    {
-        Game.Simulate(now / 1_000.0, deltaTime);
-        
-        await UpdateConnections();
-    }
-
-    private async Task UpdateConnections()
-    {
-        var tasks = _connections.Keys
-            .Select(async c => await ProcessConnection(c));
-        await Task.WhenAll(tasks);
-    }
-
-    private async Task ProcessConnection(WebSocketConnection connection)
-    {
-        if (!await connection.ProcessAsync())
-            RemoveConnection(connection);
-    }
-    
-    public void AddConnection(WebSocketConnection connection)
-    {
-        logger.LogInformation("Adding connection {Connection}", connection);
-        _connections.TryAdd(connection, 0);
-    }
-    
-    public void RemoveConnection(WebSocketConnection connection)
-    {
-        logger.LogInformation("Removing connection {Connection}", connection);
-        _connections.Remove(connection, out _);
-    }
-
-}
 
 public sealed class GameHostedService(GameService gameService, ILogger<GameHostedService> logger) : IHostedService, IDisposable
 {
@@ -70,13 +24,13 @@ public sealed class GameHostedService(GameService gameService, ILogger<GameHoste
         return Task.CompletedTask;
     }
 
-    private async void UpdateGame(object? state)
+    private void UpdateGame(object? state)
     {
         var now = _clock!.ElapsedMilliseconds;
         var deltaTime = (now - _lastTime) / 1_000.0;
         _lastTime = now;
 
-        await gameService.Update(now / 1_000.0, deltaTime);
+        gameService.Update(now / 1_000.0, deltaTime);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

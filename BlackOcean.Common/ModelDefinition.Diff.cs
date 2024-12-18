@@ -5,18 +5,18 @@ public partial class ModelDefinition
     public Dictionary<string, object> Diff(object? newModel, object? oldModel, bool apply, double epsilon = 0.0001)
     {
         var changes = new Dictionary<string, object>();
-        if (newModel == null && oldModel == null)
+        if (newModel is null && oldModel is null)
             return changes;
 
         // If either is null and not both
-        if (newModel == null || oldModel == null)
+        if (newModel is null || oldModel is null)
         {
             // Entire object considered "changed"
             changes[string.Empty] = newModel!;
             return changes;
         }
 
-        CollectDifferences(this, newModel!, oldModel!, string.Empty, changes, apply);
+        CollectDifferences(this, newModel, oldModel, string.Empty, changes, apply);
         return changes;
     }
 
@@ -31,10 +31,10 @@ public partial class ModelDefinition
             var fullPath = string.IsNullOrEmpty(currentPath) ? name : $"{currentPath}.{name}";
 
             // Compare nulls
-            if (newVal == null && oldVal == null)
+            if (newVal is null && oldVal is null)
                 continue;
             
-            if (newVal == null || oldVal == null)
+            if (newVal is null || oldVal is null)
             {
                 changes[fullPath] = newVal!;
                 if (apply) ApplyProperty(property, oldModel, newVal);
@@ -48,7 +48,7 @@ public partial class ModelDefinition
             {
                 if (Equals(newVal, oldVal)) continue;
 
-                changes[fullPath] = newVal!;
+                changes[fullPath] = newVal;
                 if (apply) ApplyProperty(property, oldModel, newVal);
                 continue;
             }
@@ -56,9 +56,9 @@ public partial class ModelDefinition
             // For arrays, shallow compare
             if (propertyType.IsArray)
             {
-                if (ArraysEqual((Array)newVal!, (Array)oldVal!)) continue;
+                if (ArraysEqual((Array)newVal, (Array)oldVal)) continue;
 
-                changes[fullPath] = newVal!;
+                changes[fullPath] = newVal;
                 if (apply) ApplyProperty(property, oldModel, newVal);
                 continue;
             }
@@ -69,7 +69,7 @@ public partial class ModelDefinition
 
             // For other complex reference types, recursively compare
             var nestedDef = GetDefinition(propertyType);
-            CollectDifferences(nestedDef, newVal!, oldVal!, fullPath, changes, apply);
+            CollectDifferences(nestedDef, newVal, oldVal, fullPath, changes, apply);
         }
     }
 

@@ -25,9 +25,10 @@ export interface ControlPanel {
     aftShield: Gauge
     generated: Gauge
     draw: Gauge
+    energy: Gauge
     battery: Gauge
     emergencyBattery: Gauge
-    heatGain: Gauge
+    heatDelta: Gauge
     heatPurge: Gauge
     heatStore: Gauge
     interiorExposure: Gauge
@@ -48,10 +49,8 @@ export interface Gauge {
 
 export enum Scale {
     Linear = "Linear",
+    Exp = "Exp",
     Log = "Log",
-    Log1p = "Log1p",
-    Log2 = "Log2",
-    Log10 = "Log10",
 }
 
 export interface Band {
@@ -85,13 +84,15 @@ export interface PoweredSystem {
     maxLevel: number
     currentLevel: number
     levelStatuses: Status[]
-    powered: boolean
+    available: boolean
     operating: boolean
     setLevel: number
     currentHeat: number | undefined
     heatBands: Band[] | undefined
     currentOutput: number
     nominalOutput: number
+    powered: Button
+    auto: Button
 }
 
 export interface Identity {

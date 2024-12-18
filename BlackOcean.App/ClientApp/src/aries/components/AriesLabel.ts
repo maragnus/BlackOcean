@@ -1,21 +1,21 @@
-import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
-import './AriesIcon';
-import { TextStyles } from '../Styles';
+import {LitElement, PropertyValues, html, css} from 'lit'
+import {customElement, property} from 'lit/decorators.js'
+import './AriesIcon'
+import { TextStyles } from '../Styles'
 
 @customElement("a-label")
 export class AriesLabel extends LitElement {
     @property({attribute: true})
-    typo: "normal" | "info" | "warn" | "error" | "title" | "dim" = "normal";
+    typo: "normal" | "info" | "warn" | "error" | "title" | "dim" = "normal"
 
     @property({attribute: true})
-    size: "xs" | "sm" | "md" | "lg" | "xl" = "md";
+    size: "xs" | "sm" | "md" | "lg" | "xl" = "md"
 
     @property({attribute: true, type: Boolean})
-    center: boolean = false;
+    center: boolean = false
 
     @property({attribute: true})
-    icon: string | undefined = undefined;
+    icon: string | undefined = undefined
 
     static override get styles() {
         return [
@@ -41,11 +41,11 @@ export class AriesLabel extends LitElement {
 
     protected override updated(changedProperties: PropertyValues): void {
         if (changedProperties.has('typo') || changedProperties.has('size') || changedProperties.has('center'))
-            this.className = `text-${this.typo} text-${this.size}` + (this.center ? ' text-center' : '');
+            this.className = `text-${this.typo} text-${this.size}` + (this.center ? ' text-center' : '')
     }
 
     override render() {
-        const icon = this.icon ? html`<a-icon icon=${this.icon}></a-icon>` : undefined;
-        return html`${icon}<div class="text"><slot></slot></div>`;
+        const icon = this.icon ? html`<a-icon icon=${this.icon}></a-icon>` : undefined
+        return html`${icon}<div class="text"><slot></slot></div>`
     }
 }

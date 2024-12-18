@@ -3,10 +3,10 @@
     {
       "Name": "Basic Ship",
       "Hull": "Basic Hull",
-      "Storages": ["Battery 10MJ", "Uranium Store 1kL", "Shield Energy Store 100MJ", "Coolant 100MJ"],
-      "Generators": ["Uranium Generator 5kW"],
+      "Storages": ["Battery 100MJ", "Uranium Store 1L", "Shield Energy Store 100MJ", "Coolant 100MJ"],
+      "Generators": ["Uranium Generator 1MW"],
       "Shields": ["Energy Shield Generator 1kW", "Ablative Shield Generator 1kW"],
-      "Cooling": ["Radiator 5MW"]
+      "Cooling": ["Radiator 72kW"]
     }
   ],
   "Hulls": [
@@ -17,14 +17,14 @@
   ],
   "Storages": [
     {
-      "Name": "Battery 10MJ",
+      "Name": "Battery 100MJ",
       "Material": "Electricity",
-      "Capacity": 10
+      "Capacity": 100
     },
     {
-      "Name": "Uranium Store 1kL",
+      "Name": "Uranium Store 1L",
       "Material": "Uranium",
-      "Capacity": 0.001
+      "Capacity": 1
     },
     {
       "Name": "Shield Energy Store 100MJ",
@@ -40,10 +40,10 @@
   ],
   "Generators": [
     {
-      "Name": "Uranium Generator 5kW",
+      "Name": "Uranium Generator 1MW",
       "Material": "Uranium",
       "Efficiency": 0.95,
-      "Output": 5000,
+      "Output": 1000000,
       "ThermalLimit": 800
     }
   ],
@@ -65,8 +65,8 @@
   ],
   "Cooling": [
     {
-      "Name": "Radiator 5MW",
-      "Output": 5.0
+      "Name": "Radiator 72kW",
+      "Input": 72000.0
     }
   ]
 }

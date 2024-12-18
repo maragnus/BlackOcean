@@ -30,10 +30,10 @@ namespace BlackOcean.Simulation.Definitions
 
         internal static SystemCollection Systems { get; }
 
-        public static StorageSystem GetStorage(string name) => Systems.Storages[name].Build();
+        public static StorageComponent GetStorage(string name) => Systems.Storages[name].Build();
         public static EnergyGenerator GetGenerator(string name) => Systems.Generators[name].Build();
         public static ShieldGenerator GetShield(string name) => Systems.Shields[name].Build();
-        public static CoolingSystem GetCooling(string name) => Systems.Cooling[name].Build();
+        public static CoolingComponent GetCooling(string name) => Systems.Cooling[name].Build();
         public static SpaceShip GetShip(string name) => Systems.Ships[name].Build();
         public static ShipHull GetHull(string name) => Systems.Hulls[name].Build();
     }
@@ -61,14 +61,14 @@ namespace BlackOcean.Simulation.Definitions
 
         internal record Storage(string Name, string Material, double Capacity, double? TransferRate)
         {
-            public StorageSystem Build()
+            public StorageComponent Build()
             {
                 var material = Materials.AllMaterials[Material];
                 // Heat and energy are provided as megajoules
                 var multiplier = material == Materials.Heat || material == Materials.Electricity || material == Materials.ShieldEnergy ? 1_000_000 : 1;
                 var capacity = Capacity * multiplier;
                 var transferRate = (TransferRate ?? Capacity) * multiplier;
-                return new PrefabStorageSystem(Name, material, capacity, transferRate);
+                return new PrefabStorageComponent(Name, material, capacity, transferRate);
             }
         }
 
@@ -82,9 +82,9 @@ namespace BlackOcean.Simulation.Definitions
             public ShieldGenerator Build() => new PrefabShieldGenerator(Name, Efficiency, Output, ThermalLimit, ShieldType);
         }
 
-        internal record Cooling(string Name, double Output)
+        internal record Cooling(string Name, double Input)
         {
-            public CoolingSystem Build() => new PrefabCoolingSystem(Name, Output);
+            public CoolingComponent Build() => new PrefabCoolingComponent(Name, Input);
         }
         
         internal record Hull(string Name, double Mass)

@@ -4,7 +4,7 @@ namespace BlackOcean.Common;
 
 public partial class ModelDefinition
 {
-    private static Dictionary<Type, string> _typeIndex = new()
+    private static readonly Dictionary<Type, string> TypeIndex = new()
     {
         [typeof(bool?)] = "boolean | undefined",
         [typeof(byte?)] = "number | undefined",
@@ -62,7 +62,7 @@ public partial class ModelDefinition
 
     private static string GetTypeScriptType(Type type, bool isNullable, HashSet<Type> typesAdded, Stack<Type> typesRemaining)
     {
-        if (_typeIndex.TryGetValue(type, out var typeName))
+        if (TypeIndex.TryGetValue(type, out var typeName))
             return typeName;
         
         typeName = type == typeof(string) ? "string" : type.Name;

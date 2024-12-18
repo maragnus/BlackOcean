@@ -1,9 +1,24 @@
-import {LitElement, html, css, PropertyValues, TemplateResult} from 'lit'
+import {LitElement, html, PropertyValues, TemplateResult} from 'lit'
 import {ref, Ref, createRef} from 'lit/directives/ref.js'
 import {customElement, property, query, queryAll} from 'lit/decorators.js'
+import "./AriesIcon"
+import { SliderStyles } from '../Styles'
+
+const icons: Record<number, string> = {
+    [1]: "fal fa-arrows-down-to-line",
+    [2]: "fal fa-arrow-down-to-line",
+    [3]: "fal fa-arrows-from-line",
+    [4]: "fal fa-arrow-up-to-line",
+    [5]: "fal fa-arrows-up-to-line",
+}
 
 @customElement("aries-slider")
-export class AriesSlider extends LitElement {
+export class AriesSlider extends LitElement {    
+    @property({attribute: true, type: Boolean})
+    available: boolean = false
+
+    @property({attribute: true, type: Boolean})
+    disabled: boolean = false
 
     @property({attribute: true, type: Number})
     min: number = 0
@@ -29,136 +44,7 @@ export class AriesSlider extends LitElement {
     inputRef: Ref<HTMLInputElement> = createRef()
 
     static override get styles() {
-        return css`
-            :host {
-                flex-grow: 1;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                /* padding-top: 3px;
-                padding-bottom: 4px;
-                padding-left: 0px;
-                padding-right: 0px; */
-                gap: 6px;
-            }
-            .slider, .progress {
-                flex-grow: 1;
-                position: relative;
-                display: flex;
-                flex-direction: column-reverse;
-                gap: 6px;
-            }
-            .slider {
-                width: 42px;
-                max-width: 42px;
-            }
-            .progress {
-                width: 12px;
-                max-width: 12px;
-            }
-            .progress .box {
-                border-radius: 4px;
-            }
-            .box {
-                position: relative;                
-                flex: 1;
-                box-shadow: 0 0 var(--slider-box-inactive-bloom-size) var(--slider-box-active-safe);
-                border: var(--slider-border);
-                border-radius: 4px;
-                background-color: var(--slider-inactive-safe);
-                pointer-events: none;
-            }
-            .box.partial {
-                position: absolute;
-                bottom: 0;
-                height: var(--progress);
-                left: 0;
-                right: 0;
-            }
-            .box.warn {
-                background-color: var(--slider-inactive-warn);
-                box-shadow: 0 0 var(--slider-box-inactive-bloom-size) var(--slider-active-warn)
-            }
-            .box.danger {
-                background-color: var(--slider-inactive-danger);
-                box-shadow: 0 0 var(--slider-box-inactive-bloom-size) var(--slider-active-danger)
-            }
-            .box.active.safe {
-                background-color: var(--slider-active-safe);
-            }
-            .box.active.warn {
-                background-color: var(--slider-active-warn);
-            }
-            .box.active.danger {
-                background-color: var(--slider-active-danger);
-            }
-            .slider .box.current {
-                background-color: transparent !important;
-                box-shadow: none !important;
-            }
-
-            input[type="range"] {
-                writing-mode: vertical-lr;
-                direction: rtl;
-                position: absolute;
-                background: transparent;
-                inset: 0;
-                margin: 0;
-                padding: 0;
-            }
-
-            input[type="range"],
-            ::-webkit-slider-runnable-track,
-            ::-webkit-slider-thumb {
-                -webkit-appearance: none;
-            }
-
-            input[type="range"]::-webkit-slider-runnable-track {
-                border: none;
-                width: 42px;
-                height: 100%;
-                cursor: pointer;
-            }
-
-            input[type="range"]::-webkit-slider-thumb {
-                position: relative;
-                width: 100%;
-                height: var(--box-height);
-                border: 1px solid var(--border-light);
-                border-radius: 8px;
-                background-color: var(--slider-thumb-safe);
-                background-image: radial-gradient(ellipse at center center, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.10) 24%, rgba(255, 255, 255, 0) 100%);
-                box-shadow:
-                    0 0 var(--button-bloom-size) 0 var(--button-bloom-color),
-                    inset 0 0 var(--button-bloom-size) 0 var(--button-bloom-color);
-                cursor: ns-resize;
-            }
-
-            input[type="range"].warn::-webkit-slider-thumb {
-                background-color: var(--slider-thumb-warn);
-                box-shadow:
-                    0 0 var(--button-bloom-size) 0 var(--slider-active-warn),
-                    inset 0 0 var(--button-bloom-size) 0 var(--slider-active-warn);
-            }
-
-            input[type="range"].danger::-webkit-slider-thumb {
-                background-color: var(--slider-thumb-danger);
-                box-shadow:
-                    0 0 var(--button-bloom-size) 0 var(--slider-active-danger),
-                    inset 0 0 var(--button-bloom-size) 0 var(--slider-active-danger);
-            }
-
-            .label {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                pointer-events: none;
-                position: absolute;
-                bottom: var(--label-top);
-                width: 100%;
-                height: var(--box-height);
-            }
-        `;
+        return SliderStyles
     }
 
     private getBoxHeight(): number {
@@ -185,6 +71,7 @@ export class AriesSlider extends LitElement {
         const slider = this.inputRef.value!
         const value = Number.parseInt(slider.value)
         this.value = value
+        this.dispatchEvent(new CustomEvent("change", { detail: { value: value } }))
     }
 
     private getBoxes(classNames: string[]): TemplateResult[] {
@@ -235,12 +122,27 @@ export class AriesSlider extends LitElement {
         const boxes = this.getBoxes(classNames)
         const progress = this.getProgress(classNames)
 
+        let value: TemplateResult | undefined
+        if (!this.available) {
+            value = undefined
+        } else if (this.min == 1 && this.max == 5) {
+            const valueIconIndex = Math.min(5, Math.max(1, this.value ?? 1))
+            value = html`<div class="label"><div></div><a-icon icon=${icons[valueIconIndex]}></a-icon></div></div>`
+        } else {
+            value = html`<div class="label"><div></div>${this.value}</div></div>`
+        }
+
+        const input = this.available 
+            ? html`<input ${ref(this.inputRef)} type="range" class=${className} ?disabled=${this.disabled}
+                min=${this.min} max=${this.max} .value=${this.value.toString()}
+                @change=${this.handleChange} @input=${this.handleChange} style="top:-2px;bottom:-2px">`
+            : undefined
+
         return html`
             <div class="slider">
-                <input ${ref(this.inputRef)} type="range" class=${className} min=${this.min} max=${this.max} .value=${this.value.toString()}
-                    @change=${this.handleChange} @input=${this.handleChange} style="top:-2px;bottom:-2px">
+                ${input}
                 ${boxes}
-                <div class="label"><div>${this.value}</div></div>
+                ${value}
             </div>
             ${progress}
         `

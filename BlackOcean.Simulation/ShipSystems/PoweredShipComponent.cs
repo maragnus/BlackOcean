@@ -1,4 +1,6 @@
-﻿namespace BlackOcean.Simulation.ShipSystems;
+﻿using BlackOcean.Simulation.Definitions;
+
+namespace BlackOcean.Simulation.ShipSystems;
 
 public enum PowerLevel
 {
@@ -10,17 +12,18 @@ public enum PowerLevel
     Overdrive = 5
 }
 
-public abstract class PoweredShipSystem : ShipSystem
+public abstract class PoweredShipComponent : ShipComponent
 {
     public bool IsOperating { get; private set; }
     public bool Shutdown { get; set; }
     public PowerLevel TargetPowerLevel { get; set; }
-    
-    public double CurrentPowerLevel { get; private set; }
-    public double CurrentConsumption { get; private set; }
-    public double CurrentEfficiency { get; private set; }
-    public double CurrentOutput { get; private set; }
-    public double CurrentHeatOutput { get; private set; }
+    public bool Automated { get; set; } = true;
+
+    public double CurrentPowerLevel { get; protected set; }
+    public double CurrentConsumption { get; protected set; }
+    public double CurrentEfficiency { get; protected set; }
+    public double CurrentOutput { get; protected set; }
+    public double CurrentHeatOutput { get; protected set; }
 
     public abstract double BaseConsumption { get; }
     public abstract double BaseEfficiency { get; }
@@ -28,16 +31,24 @@ public abstract class PoweredShipSystem : ShipSystem
     public abstract double BaseHeatOutput { get; }
     public abstract double LevelPerSecond { get; }
     public abstract double ThermalLimit { get; }
+    
+    public double StandardHeatOutput { get; protected set; }
+    public double OverdriveHeatOutput { get; protected set; }
+    
+    public MaterialStore HeatOutput { get; }
+    public virtual bool Automatable => false;
 
-    public PoweredShipSystem() {}
-    public PoweredShipSystem(string name) : base(name) { }
+    public PoweredShipComponent() : this("Unnamed") {}
+
+    public PoweredShipComponent(string name) : base(name)
+    {
+        HeatOutput = Supplies(Materials.Heat, ThermalLimit);
+    }
     
     public override void Simulate(SimulationContext context)
     {
         Calculate(context);
     }
-
-    private static readonly double[] Multiplier = [0.0, 0.25, 0.75, 1.0, 1.25, 1.5];
     
     public void Calculate(SimulationContext context)
     {

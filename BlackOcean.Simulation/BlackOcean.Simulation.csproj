@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
       <PackageReference Include="Jitter2.Double" Version="2.4.8" />
     </ItemGroup>
 
@@ -16,6 +17,10 @@
 
     <ItemGroup>
       <EmbeddedResource Include="Definitions\ShipSystems.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BlackOcean.Common\BlackOcean.Common.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿namespace BlackOcean.Simulation.ControlPanels;
 
+[PublicAPI]
 public class Identity
 {
     public string? ShipName { get; set; }

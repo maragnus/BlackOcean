@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="bundle.css"/>
     <script type="module" src="bundle.js"></script>
     <link rel="icon" type="image/png" href="favicon.png"/>
+    <title>ARIES : Dashboard</title>
 </head>
 
 <body>
@@ -28,8 +29,8 @@
       <a-cell fill center><a-gauge unit="kelvin" value="330" min="300" max="520" bands="warn 360 safe 460 warn 490 danger" label="Eng Temp"></a-gauge></a-cell>
       <a-cell fill center><a-gauge unit="gravity" lockscale="0" value="1.1" min="0" max="5" bands="danger 0.2 warn 0.8 safe 1.5 warn 3 danger" label="Vert G-F"></a-gauge></a-cell>
       <a-cell fill center><a-gauge unit="gravity" lockscale="0" value="0.4" min="0" max="5" bands="safe 0.5 warn 2 danger" label="Lat G-F"></a-gauge></a-cell>
-      <a-cell fill center><display-gauge source="interiorExposure" icon="fal fa-circle-radiation">Int Exp</a-gauge></a-cell>
-      <a-cell fill center><display-gauge source="exteriorExposure" icon="fal fa-radiation">Ext Exp</a-gauge></a-cell>
+      <a-cell fill center><display-gauge source="interiorExposure" icon="fal fa-circle-radiation">Int Exp</display-gauge></a-cell>
+      <a-cell fill center><display-gauge source="exteriorExposure" icon="fal fa-radiation">Ext Exp</display-gauge></a-cell>
     </a-cell>
   </aries-panel>
 

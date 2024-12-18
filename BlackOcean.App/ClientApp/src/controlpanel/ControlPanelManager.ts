@@ -5,6 +5,7 @@ export type SubscriptionCallback = (key: string, value: unknown) => void
 export class ControlPanelManager {
     private subscriptions: Map<string, SubscriptionCallback[]> = new Map()
     private controlPanel: ControlPanel | undefined
+    sendMessage: ((data: unknown) => void) | undefined
 
     getControlPanel(): ControlPanel | undefined {
         return this.controlPanel
@@ -43,7 +44,7 @@ export class ControlPanelManager {
      * Notify subscribers of a specific key and all parent keys.
      */
     private notifySubscribers(keys: string[], updatedValue: unknown): void {
-        const notified = new Set<string>();
+        const notified = new Set<string>()
 
         for (let i = 1; i <= keys.length; i++) {
             const currentKey = keys.slice(0, i).join('.')
@@ -52,12 +53,12 @@ export class ControlPanelManager {
 
             if (this.subscriptions.has(currentKey)) {
                 this.subscriptions.get(currentKey)!.forEach(callback => {
-                    const value = this.getValue(currentKey);
+                    const value = this.getValue(currentKey)
                     try {
                         callback(currentKey, value)
                     }
                     catch (error) {
-                        console.error(`Property ${currentKey} subscription failed.`, error, updatedValue);
+                        console.error(`Property ${currentKey} subscription failed.`, error, updatedValue)
                     }
                 })
             }
@@ -75,8 +76,14 @@ export class ControlPanelManager {
         }
     }
 
+    sendAction(path: string, value: unknown): void {
+        if (!this.sendMessage) return
+        path = toPascalCase(path).join('.')
+        this.sendMessage({ [path]: value })
+    }
+
     setValue(path: string, value: unknown) {
-        const keys = this.toCamelCase(path)
+        const keys = toCamelCase(path)
 
         if (this.controlPanel === undefined) return
         let target: Record<string, unknown> | undefined = this.controlPanel
@@ -109,7 +116,7 @@ export class ControlPanelManager {
     getValue(path: string): unknown {
         if (this.controlPanel === undefined) return undefined
 
-        const keys = this.toCamelCase(path)
+        const keys = toCamelCase(path)
         let target: unknown = this.controlPanel
 
         for (const key of keys) {
@@ -138,16 +145,10 @@ export class ControlPanelManager {
                     callback(key, value)
                 }
                 catch (error) {
-                    console.error(`Property ${key} subscription failed.`, error, value);
+                    console.error(`Property ${key} subscription failed.`, error, value)
                 }
             }
         }
-    }
-
-    private toCamelCase(path: string): string[] {
-        return path
-            .split('.')
-            .map(segment => segment.charAt(0).toLowerCase() + segment.slice(1));
     }
 }
 
@@ -161,11 +162,23 @@ const bandMap: Record<Status, string> = {
 }
 
 export function translateBands(bands: Band[] | undefined): string {
-    if (bands === undefined || bands.length == 0) return bandMap[Status.None];
+    if (bands === undefined || bands.length == 0) return bandMap[Status.None]
     return bandMap[bands[0].status] + ' '
         + bands.slice(1).map(b => `${b.value} ${bandMap[b.status]}`).join(' ')
 }
 
 export function translateScale(scale: Scale): string {
     return scale.toString().toLowerCase()
+}
+
+export function toPascalCase(path: string): string[] {
+    return path
+        .split('.')
+        .map(segment => segment.charAt(0).toUpperCase() + segment.slice(1))
+}
+
+export function toCamelCase(path: string): string[] {
+    return path
+        .split('.')
+        .map(segment => segment.charAt(0).toLowerCase() + segment.slice(1))
 }

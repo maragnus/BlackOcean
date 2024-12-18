@@ -32,6 +32,7 @@ public class DiffTests
         var diffPanel = (ControlPanel)diff[""];
         That(diffPanel.AblativeShield.Name, Is.EqualTo("Test 1"));
         That(diffPanel.Cooler.Name, Is.EqualTo("Cooler 1"));
+        That(diffPanel.Cooler.Pressed, Is.True);
     }
     
     
@@ -87,15 +88,16 @@ public class DiffTests
         var panel = new ControlPanel();
 
         panel.AblativeShield.Name = "Test 1";
-        
+        panel.Cooler.Pressed = true;
+
         var clonedPanel = ModelUtil.DeepClone(panel);
         
         panel.AblativeShield.HeatBands = Band.Build(Status.Danger, (0, Status.Safe), (1, Status.Warn));
         panel.AblativeShield.LevelStatuses = [Status.Danger, Status.Safe, Status.Warn, Status.Danger];
         panel.Draw.Unit = "kelvin";
         panel.Cooler.Name = "Cooler 1";
-        panel.Cooler.Pressed = true;
-        
+        panel.Cooler.Pressed = false;
+
         var diff = ModelUtil.Diff(panel, clonedPanel);
         ModelUtil.Apply(clonedPanel, diff);
         

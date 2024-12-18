@@ -18,7 +18,7 @@ public abstract class Scenario() : ISimulated
     
     protected Player CreatePlayer(Sector sector, string playerName, string shipName)
     {
-        var controlPanel = new ControlSystem();
+        var controlPanel = new ControlComponent();
         var ship = Prefabs.GetShip(shipName);
         ship.Name = playerName;
         ship.Sector = sector;
@@ -33,8 +33,6 @@ public abstract class Scenario() : ISimulated
             Faction = Game.FactionManager.Add(playerName),
             SpaceShip = ship
         };
-        
-        Game.PlayerManager.AddPlayer(player);
         return player;
     }
 }

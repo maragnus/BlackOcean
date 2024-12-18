@@ -37,7 +37,7 @@ export default {
   
   plugins: [
     sass(sassConfig),
-    // minifyHTML(),
+    minifyHTML(),
     copy(copyConfig),
     typescript(),
     resolve(), // tells Rollup how to find date-fns in node_modules

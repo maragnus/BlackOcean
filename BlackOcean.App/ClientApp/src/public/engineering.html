@@ -22,18 +22,18 @@
         <a-label icon="fal fa-sliders" size="lg">Engineering</a-label>
       </a-cell>
       <a-cell>
-        <a-button toggle active icon="fal fa-starfighter-twin-ion-engine-advanced">Reactor</a-button>
+        <display-button source="reactor.powered" icon="fal fa-starfighter-twin-ion-engine-advanced">Reactor</display-button>
       </a-cell>
     </a-cell>
     
     <a-cell fill layout="row">
       <a-cell fill content layout="column">
           <a-stack fill layout="row" justify="space-between">
-            <display-system source="reactor" label="RCT" icon="fal fa-starfighter-twin-ion-engine-advanced"></display-system>
-            <display-system source="emergencyReactor" label="EMG" icon="fal fa-light-emergency"></display-system>
+            <display-system source="reactor" auto label="RCT" icon="fal fa-starfighter-twin-ion-engine-advanced"></display-system>
+            <display-system source="emergencyReactor" auto label="EMG" icon="fal fa-light-emergency"></display-system>
             <display-system source="lifeSupport" label="LFS" icon="fal fa-heart-pulse"></display-system>
-            <display-system source="energyShield" label="SHD" sup="E" icon="fal fa-shield-plus"></display-system>
-            <display-system source="ablativeShield" label="SHD" sup="A" icon="fal fa-shield-quartered"></display-system>
+            <display-system source="energyShield" auto label="SHD" sup="E" icon="fal fa-shield-plus"></display-system>
+            <display-system source="ablativeShield" auto label="SHD" sup="A" icon="fal fa-shield-quartered"></display-system>
             <display-system source="energyWeapon" label="LSR" sup="1" icon="fal fa-raygun"></display-system>
             <display-system source="impulseDrive" label="IMP" value="5" icon="fal fa-rocket-launch"></display-system>
             <display-system source="warpDrive" label="WRP" value="1" icon="fal fa-coin-vertical"></display-system>
@@ -44,9 +44,13 @@
     </a-cell>
     <a-cell endcap>
       <a-stack layout="row" justify="space-between">
+        <display-button source="reactor.auto" icon="fal fa-microchip-ai">RCT</display-button>
+        <display-button source="emergencyReactor.auto" icon="fal fa-microchip-ai">EMG</display-button>
+        <a-button toggle icon="fal fa-car-battery">EP</a-button>
+        <display-button source="energyShield.auto" icon="fal fa-microchip-ai">SHD</display-button>
+        <display-button source="ablativeShield.auto" icon="fal fa-microchip-ai">SHD</display-button>
         <a-button toggle icon="fal fa-shield">FWD</a-button>
         <a-button toggle icon="fal fa-shield">AFT</a-button>
-        <a-button toggle icon="fal fa-car-battery">EP</a-button>
         <a-button toggle icon="fal fa-vent-damper">Vent</a-button>
         <a-button toggle icon="fal fa-snowflake">Cool</a-button>
         <a-button icon="fal fa-eject">Purge</a-button>
@@ -56,14 +60,15 @@
 
   <aries-panel area="c">
     <a-cell endcap>
-      <a-label icon="fal fa-starfighter-twin-ion-engine-advanced" size="lg">Energy</a-label>
+      <a-label icon="fal fa-bolt" size="lg">Energy</a-label>
     </a-cell>
 
     <a-cell layout="row">
       <a-cell layout="row" justify="center" fill content><display-gauge source="generated" icon="fal fa-battery">Gen<sup>+</sup></display-gauge></a-cell>
       <a-cell layout="row" justify="center" fill content><display-gauge source="draw" icon="fal fa-battery">Draw<sup>-</sup></display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="energy" icon="fal fa-atom-simple">Energy</display-gauge></a-cell>
       <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyBattery" icon="fal fa-battery-bolt">EP Bat</display-gauge></a-cell>
-      <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyFuel" icon="fal fa-atom-simple">EP Fuel</display-gauge></a-cell>
+<!--      <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyFuel" icon="fal fa-atom-simple">EP Fuel</display-gauge></a-cell>-->
     </a-cell>
     <a-cell layout="row">
       <a-cell layout="row" justify="center" fill content><display-gauge source="battery" icon="fal fa-car-battery">Bat</display-gauge></a-cell>
@@ -75,11 +80,11 @@
 
   <aries-panel area="e">
     <a-cell endcap>
-      <a-label icon="fal fa-starfighter-twin-ion-engine-advanced" size="lg">Energy</a-label>
+      <a-label icon="fal fa-fire" size="lg">Heat</a-label>
     </a-cell>
 
     <a-cell layout="row">
-      <a-cell layout="row" justify="center" fill content><display-gauge source="heatGain" icon="fal fa-fire">Heat<sup>+</sup></display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="heatDelta" icon="fal fa-fire">Heat<sup>+</sup></display-gauge></a-cell>
       <a-cell layout="row" justify="center" fill content><display-gauge source="heatPurge" icon="fal fa-snowflake">Heat<sup>-</sup></display-gauge></a-cell>
     </a-cell>
     <a-cell layout="row">
@@ -98,7 +103,7 @@
       <a-cell fill center><display-gauge source="exteriorExposure" icon="fal fa-radiation">Ext Exp</display-gauge></a-cell>
     </a-cell>
     <a-cell layout="row">
-      <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="ablativeShielding" icon="fal fa-link-simple-slash">SHLD<sup>A</sup></display-gauge></a-cell>
       <a-cell layout="row" justify="center" fill content><display-gauge source="na" icon="fal fa-link-simple-slash">N/A</display-gauge></a-cell>
     </a-cell>
   </aries-panel>

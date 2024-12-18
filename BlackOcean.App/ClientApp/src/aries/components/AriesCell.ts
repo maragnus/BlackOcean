@@ -1,6 +1,6 @@
-import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
-import {FlexLayoutStyles} from '../Styles';
+import {LitElement, html, css} from 'lit'
+import {customElement, property} from 'lit/decorators.js'
+import {FlexLayoutStyles} from '../Styles'
 
 @customElement("a-cell")
 export class AriesCell extends LitElement {
@@ -27,7 +27,7 @@ export class AriesCell extends LitElement {
     endcap: boolean = false
 
     override updated(): void {
-        const justify = this.center ? 'center' : this.justify;
+        const justify = this.center ? 'center' : this.justify
 
         this.className = 
             (this.fill ? "f-fill " : "")
@@ -35,7 +35,7 @@ export class AriesCell extends LitElement {
             + (this.endcap ? "f-endcap " : "")
             + `f-${this.layout} `
             + `fjc-${justify} `
-            + `fac-${this.align}`;
+            + `fac-${this.align}`
     }
 
     static override get styles() {
@@ -60,6 +60,6 @@ export class AriesCell extends LitElement {
     }
 
     override render() {
-        return html`<slot></slot>`;
+        return html`<slot></slot>`
     }
 }

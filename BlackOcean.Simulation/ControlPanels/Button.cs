@@ -2,6 +2,7 @@
 
 namespace BlackOcean.Simulation.ControlPanels;
 
+[PublicAPI]
 public class Button
 {
     public string Name { get; set; } = "";
@@ -10,7 +11,7 @@ public class Button
     public bool Available { get; set; }
     public bool Toggle { get; set; }
 
-    public void Populate(CoolingSystem? coolingSystem)
+    public void Populate(CoolingComponent? coolingSystem)
     {
         Toggle = true;
 
@@ -27,7 +28,7 @@ public class Button
         Pressed = coolingSystem.IsOpen;
     }
     
-    public void Populate(StorageSystem? storageSystem)
+    public void Populate(StorageComponent? storageSystem)
     {
         Toggle = true;
 
@@ -41,6 +42,6 @@ public class Button
         
         Name = storageSystem.Name;
         Available = true;
-        Pressed = storageSystem.EnableWithdraw;
+        Pressed = storageSystem.Storage.IsEnabled;
     }
 }

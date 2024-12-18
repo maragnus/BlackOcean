@@ -76,7 +76,7 @@ public partial class ModelDefinition
 
     private static object? ArrayClone(Array? srcArray, Type elementType)
     {
-        if (srcArray == null) return null;
+        if (srcArray is null) return null;
         
         // Arrays of value types or strings can be cloned via ICloneable or just Array.Copy
         if (elementType.IsValueType || elementType == typeof(string))
@@ -106,7 +106,7 @@ public partial class ModelDefinition
         if (source is null) return null;
 
         if (source.GetType() != ModelType)
-            throw new InvalidOperationException("Source does not match ModelType");
+            throw new InvalidOperationException($"Source {source.GetType().Name} does not match ModelType {ModelType.Name}");
 
         var dest = _constructor();
         foreach (var property in _properties)

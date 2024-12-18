@@ -6,11 +6,15 @@ Black Ocean is an immersive spaceship simulation game where players connect to c
 
 ## Features
 - **Comprehensive Spaceship Simulation**: Control every aspect of the ship, from engineering to navigation.
-- **Collaborative Gameplay**: Players take on distinct roles such as Captain, Helmsman, Tactical, Science, Engineering, and Communications.
+- **Collaborative Gameplay**: Players take on distinct roles such as Captain, Helmsman, Tactical, Science, Operations, Engineering, and Communications.
 - **Role-Playing with a Full Bridge Crew**: Immerse yourself in the experience of working as a cohesive team to tackle challenges and explore the universe.
 - **Deep Mechanics**: Simulates the internals of the spaceship, faction dynamics, and the economy of an entire solar system.
 - **Web Frontend Accessibility**: The frontend makes the game accessible from many types of devices, especially suited to touchscreens, enhancing ease of interaction and gameplay. 
 
+See also:
+* [Roles](Docs/Roles.md) for more information on player roles and mission types.
+* [Simulation](Docs/Simulation.md) for more information on simulation physics and game mechanics.
+ 
 ---
 
 ## Technologies Used
@@ -42,7 +46,7 @@ Black Ocean is an immersive spaceship simulation game where players connect to c
 ### Backend Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/BlackOcean.git
+   git clone https://github.com/maragnus/BlackOcean.git
    cd BlackOcean
    ```
 2. Navigate to the backend directory:
@@ -71,47 +75,6 @@ Black Ocean is an immersive spaceship simulation game where players connect to c
    npm run dev
    ```
 4. The frontend will start on http://localhost:44414 by default.
-
----
-
-## Units
-
-Black Ocean uses metric units.
-
-Heat energy
-: Measured in megajoules (MJ)
-: Simplified model to calculate the amount of excess heat stored in components and coolant.
-: Reference: A cup of coffee at 82°C/180°F contains approximately 57,000 joules (0.057 MJ) of heat energy.
-
-Electrical Energy
-: Stored energy is measured in megajoules (MJ)
-: Generation is measured in megawatts (MW). `1 megawatt/second = 1 megajoule`
-: Reference: A 100-watt lightbulb consumes per 1 megajoule in 10,000 seconds (2 hours 46 minutes)
-
-Materials
-: Other materials (gas, liquid, solid) are stored in liters. See the [Materials](#materials) section for more information.
-
-### Materials
-
-Black Ocean defines a set of resources use in the simulation. The materials are divided into these classifications: Energy, Solid, Gas, and Liquid
-
-All stored materials are measured in liter and mass. Mass is calculated at grams per liter, with gasses stored at 200 bar.
-
-[Material Table](Docs/Materials.md)
-
-### Physics
-
-Powered System
-: Powered components convert between materials. They support adjusting their power level which changes their material output, material consumption, and heat output.
-: As power level increases, efficiency decreases. This requires more input material to provide the designed output material. This also releases the extra material as heat.
-
-| Metric      | Shutdown | Hibernate | Suspend | Standard | Boost | Overdrive |
-|-------------|----------|-----------|---------|----------|-------|-----------|
-| Output      | 0%       | 15%       | 51%     | 94%      | 132%  | 150%      |
-| Efficiency  | N/A      | 99%       | 98%     | 96%      | 93%   | 90%       |
-| Consumption | N/A      | 15.15%    | 52%     | 98%      | 142%  | 167%      |
-| Waste Heat  | N/A      | 1%        | 2%      | 4%       | 7%    | 10%       |
-
 
 ---
 
@@ -150,7 +113,9 @@ BlackOcean/
 │   └── ShipSystems/             # Subsystems for a ship
 ├── LICENSE.md                   # License
 ├── Docs                         # Documentation
-│   └── Materials.md             # Table of simulated materials
+│   ├── Materials.md             # Table of simulated materials
+│   ├── Roles.md                 # Details on player roles and mission types
+│   └── Simulation.md            # Details on simulation physics and mechanics
 └── README.md                    # Documentation
 ```
 
@@ -163,7 +128,7 @@ We welcome contributions! To contribute:
 3. Commit your changes.
 4. Submit a pull request.
 
-You must agree to the [Black Ocean License](#license) when forking this repository. All accepted contributions are owned by the Licensor.
+You must agree to the [Black Ocean License](#License) when forking this repository. All accepted contributions are owned by the Licensor.
 
 ---
 
