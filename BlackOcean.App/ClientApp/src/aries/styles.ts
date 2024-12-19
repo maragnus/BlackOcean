@@ -122,11 +122,11 @@ export const SliderStyles = css`
     }
     .box.warn {
         background-color: var(--slider-inactive-warn);
-        box-shadow: 0 0 var(--slider-box-inactive-bloom-size) var(--slider-active-warn)
+        /* box-shadow: 0 0 var(--slider-box-inactive-bloom-size) var(--slider-active-warn) */
     }
     .box.danger {
         background-color: var(--slider-inactive-danger);
-        box-shadow: 0 0 var(--slider-box-inactive-bloom-size) var(--slider-active-danger)
+        /* box-shadow: 0 0 var(--slider-box-inactive-bloom-size) var(--slider-active-danger) */
     }
     .box.active.safe {
         background-color: var(--slider-active-safe);

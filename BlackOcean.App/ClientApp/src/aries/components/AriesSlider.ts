@@ -5,11 +5,11 @@ import "./AriesIcon"
 import { SliderStyles } from '../Styles'
 
 const icons: Record<number, string> = {
-    [1]: "fal fa-arrows-down-to-line",
-    [2]: "fal fa-arrow-down-to-line",
-    [3]: "fal fa-arrows-from-line",
-    [4]: "fal fa-arrow-up-to-line",
-    [5]: "fal fa-arrows-up-to-line",
+    [1]: "level-overdrive",
+    [2]: "level-boost",
+    [3]: "level-standard",
+    [4]: "level-standby",
+    [5]: "level-hibernate",
 }
 
 @customElement("aries-slider")
@@ -92,10 +92,10 @@ export class AriesSlider extends LitElement {
     private getProgressBox(index: number, value: number, classNames: string[]): TemplateResult {
         const colorClass = classNames[Math.min(index - this.min, classNames.length)]
 
-        if (index < value + 0.1) {
+        if (index < value + 0.05) {
             return html`<div class=${`box active ${colorClass}`}></div>`
         }
-        else if (index > value + 0.9) {
+        else if (index > value + 0.95) {
             return html`<div class=${`box inactive ${colorClass}`}></div>`
         }
 

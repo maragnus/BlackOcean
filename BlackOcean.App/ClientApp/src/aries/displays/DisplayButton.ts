@@ -8,7 +8,7 @@ import { controlPanelManager } from "../../controlpanel/ControlPanelManager"
 
 const defaultButton: Button = {
     name: "N/A",
-    icon: "fal fa-link-simple-slash",
+    icon: "none",
     pressed: false,
     available: false,
     toggle: false

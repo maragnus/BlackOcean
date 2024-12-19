@@ -14,7 +14,7 @@ const emptySystem: PoweredSystem = {
     currentLevel: 0,
     currentOutput: 0,
     heatBands: [ { value: 0, status: Status.None } ],
-    icon: "fal fa-link-simple-slash",
+    icon: "none",
     levelStatuses: [ Status.Safe, Status.Safe, Status.Safe, Status.Warn, Status.Danger ],
     maxLevel: 5,
     minLevel: 1,

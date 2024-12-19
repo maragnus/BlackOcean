@@ -1,4 +1,4 @@
-import {LitElement, html, css, PropertyValues, nothing} from 'lit'
+import {LitElement, html, PropertyValues, nothing} from 'lit'
 import {customElement, property} from 'lit/decorators.js'
 import "./AriesIcon"
 import { ButtonStyles } from '../Styles'
@@ -21,10 +21,10 @@ export class AriesButton extends LitElement {
     icon: string | undefined = undefined
 
     @property({attribute: true, type: String})
-    on_icon: string = "fas fa-circle"
+    on_icon: string = "on"
 
     @property({attribute: true, type: String})
-    off_icon: string = "fal fa-circle"
+    off_icon: string = "off"
 
     static override get styles() {
         return ButtonStyles

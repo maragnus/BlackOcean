@@ -68,9 +68,9 @@ export class AriesEngineeringSlider extends LitElement {
             </a-stack>
             ` : undefined
 
-        const watts = scaleValue(this.watts, "watt") //, undefined, 2)
-        const maxWatts = scaleValue(this.maxwatts, "watt") //, undefined, 2)
-        const heat = scaleValue(this.heat ?? 0, "watt") //, undefined, 2)
+        const watts = scaleValue(this.watts, "watt")
+        const maxWatts = scaleValue(this.maxwatts, "watt")
+        const heat = scaleValue(this.heat ?? 0, "watt")
 
         return html`
             ${icon}

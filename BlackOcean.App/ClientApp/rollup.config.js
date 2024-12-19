@@ -15,7 +15,6 @@ const production = !process.env.ROLLUP_WATCH;
 // Static assets will vary depending on the application
 const copyConfig = {
   targets: [
-    { src: 'node_modules/@fortawesome', dest: 'build/node_modules' },
     { src: 'src/public/*', dest: 'build' },
   ],
 };

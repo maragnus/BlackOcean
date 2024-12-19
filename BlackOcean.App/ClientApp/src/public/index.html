@@ -18,57 +18,55 @@
 
   <aries-panel area="a">
     <a-cell>
-      <a-label size="md">ARIES SYS <a-icon icon="fal fa-solar-system"></a-icon> 8.1.0178/afe0</a-label>
+      <a-label size="md">ARIES SYS <a-icon icon="aries-logo"></a-icon> 8.1.0178/afe0</a-label>
       <a-label size="lg">Argo Nova NCX-1508<sup>B</sup></a-label>
-      <a-label typo="info" size="sm"><a-icon icon="fal fa-circle-nodes"></a-icon> SysLink / USER LEVEL = 
-       <a-icon icon="fal fa-ellipsis-stroke-vertical"></a-icon> COMMAND</a-label>
+      <a-label typo="info" size="sm"><a-icon icon="aries-link"></a-icon> SysLink / USER LEVEL = 
+       <a-icon icon="separator"></a-icon> COMMAND</a-label>
     </a-cell>
-    <a-cell fill center layout="column"><a-label typo="title" size="xl" center><a-icon icon="fal fa-solar-system"></a-icon> Star Map</a-label></a-cell>
+    <a-cell fill center layout="column"><a-label typo="title" size="xl" center><a-icon icon="system-map"></a-icon> Star Map</a-label></a-cell>
     <a-cell layout="row">
-      <a-cell fill center><a-gauge unit="meter" interval="second" min="0" max="20000" value="12800" bands="safe 16000 warn 18000 danger" label="Velocity"></a-gauge></a-cell>
-      <a-cell fill center><a-gauge unit="kelvin" value="330" min="300" max="520" bands="warn 360 safe 460 warn 490 danger" label="Eng Temp"></a-gauge></a-cell>
-      <a-cell fill center><a-gauge unit="gravity" lockscale="0" value="1.1" min="0" max="5" bands="danger 0.2 warn 0.8 safe 1.5 warn 3 danger" label="Vert G-F"></a-gauge></a-cell>
-      <a-cell fill center><a-gauge unit="gravity" lockscale="0" value="0.4" min="0" max="5" bands="safe 0.5 warn 2 danger" label="Lat G-F"></a-gauge></a-cell>
-      <a-cell fill center><display-gauge source="interiorExposure" icon="fal fa-circle-radiation">Int Exp</display-gauge></a-cell>
-      <a-cell fill center><display-gauge source="exteriorExposure" icon="fal fa-radiation">Ext Exp</display-gauge></a-cell>
+      <a-cell fill center><a-gauge unit="meter" interval="second" min="0" max="20000" value="12800" bands="safe 16000 warn 18000 danger" label="Velocity">Velocity</a-gauge></a-cell>
+      <a-cell fill center><a-gauge unit="kelvin" value="330" min="300" max="520" bands="warn 360 safe 460 warn 490 danger" label="Eng Temp">Temp</a-gauge></a-cell>
+      <a-cell fill center><a-gauge unit="gravity" lockscale="0" value="1.1" min="0" max="5" bands="danger 0.2 warn 0.8 safe 1.5 warn 3 danger" label="Vert G-F">Vertical Gravity</a-gauge></a-cell>
+      <a-cell fill center><a-gauge unit="gravity" lockscale="0" value="0.4" min="0" max="5" bands="safe 0.5 warn 2 danger" label="Lat G-F">Lateral Gravity</a-gauge></a-cell>
+      <a-cell fill center><display-gauge source="interiorExposure" icon="status-radiation-interior">Int Exp</display-gauge></a-cell>
+      <a-cell fill center><display-gauge source="exteriorExposure" icon="status-radiation-exterior">Ext Exp</display-gauge></a-cell>
     </a-cell>
   </aries-panel>
 
   <aries-panel area="b">
     <a-cell layout="row">
       <a-cell fill>
-        <a-label icon="fal fa-sliders" size="lg">Engineering</a-label>
+        <a-label icon="engineering-station" size="lg">Engineering</a-label>
       </a-cell>
       <a-cell>
-        <a-button toggle active icon="fal fa-starfighter-twin-ion-engine-advanced">Reactor</a-button>
+        <a-button toggle active icon="component-reactor">Reactor</a-button>
       </a-cell>
     </a-cell>
     <a-cell fill layout="row">
-      <a-cell fill content layout="column">
-          <a-stack fill layout="row" justify="space-between">
-            <display-system source="reactor" label="RCT" icon="fal fa-starfighter-twin-ion-engine-advanced"></display-system>
-            <display-system source="emergencyReactor" label="EMG" icon="fal fa-light-emergency"></display-system>
-            <display-system source="lifeSupport" label="LFS" icon="fal fa-heart-pulse"></display-system>
-            <display-system source="energyShield" label="SHD" sup="E" icon="fal fa-shield-plus"></display-system>
-            <display-system source="ablativeShield" label="SHD" sup="A" icon="fal fa-shield-quartered"></display-system>
-            <display-system source="energyWeapon" label="LSR" sup="1" icon="fal fa-raygun"></display-system>
-            <display-system source="impulseDrive" label="IMP" value="5" icon="fal fa-rocket-launch"></display-system>
-            <display-system source="warpDrive" label="WRP" value="1" icon="fal fa-coin-vertical"></display-system>
-            <display-system source="scanner" label="SCN" value="2" icon="fal fa-radar"></display-system>
-            <display-system source="communications" label="COM" value="2" icon="fal fa-satellite-dish"></display-system>
-          </a-stack>
+      <a-cell layout="column" justify="center">
+        <a-cell layout="row" justify="center" fill content><display-gauge source="generated" icon="component-battery-charge">Gen<sup>+</sup></display-gauge></a-cell>
+        <a-cell layout="row" justify="center" fill content><display-gauge source="draw" icon="component-battery-drain">Draw<sup>-</sup></display-gauge></a-cell>
+        <a-cell layout="row" justify="center" fill content><display-gauge source="energy" icon="component-energy">Energy</display-gauge></a-cell>
+        <a-cell layout="row" justify="center" fill content><display-gauge source="emergencyBattery" icon="component-emergency-battery">EP Bat</display-gauge></a-cell>
       </a-cell>
-    <a-cell layout="column" justify="center">
-      <a-cell layout="row" fill content><display-gauge source="forwardShield"></display-gauge></a-cell>
-      <a-cell layout="row" fill content><display-gauge source="aftShield"></display-gauge></a-cell>
-      <a-cell layout="row" fill content><a-gauge unit="percent" interval="second" min="0" max="5" value="1.3" bands="safe" label="Charge"></a-gauge></a-cell>
-      <a-cell layout="row" fill content><a-gauge unit="watt" interval="hour" min="0" max="1200000000" value="952000000" bands="safe" label="Draw"></a-gauge></a-cell>
+        <a-cell fill content layout="column">
+        <a-stack fill layout="row" justify="space-between">
+          <display-system source="reactor" auto label="RCT" icon="component-reactor"></display-system>
+          <display-system source="emergencyReactor" auto label="EMG" icon="component-emergency-reactor"></display-system>
+          <display-system source="energyShield" auto label="SHD" sup="E" icon="component-energy-shield"></display-system>
+          <display-system source="ablativeShield" auto label="SHD" sup="A" icon="component-ablative-shield"></display-system>
+          <display-system source="impulseDrive" label="IMP" value="5" icon="component-impulse-drive"></display-system>
+          <display-system source="warpDrive" label="WRP" value="1" icon="component-warp-drive"></display-system>
+          <display-system source="scanner" label="SCN" value="2" icon="component-scanner"></display-system>
+          <display-system source="communications" label="COM" value="2" icon="component-communications"></display-system>
+        </a-stack>
     </a-cell>
     <a-cell layout="column" justify="center">
-      <a-cell layout="row" fill content><a-gauge unit="kelvin" min="200" max="750" value="370" bands="safe 360 warn 600 danger" label="Core"></a-gauge></a-cell>
-      <a-cell layout="row" fill content><a-gauge unit="kelvin" min="200" max="750" value="260" bands="safe 360 warn 600 danger" label="Coolant"></a-gauge></a-cell>
-      <a-cell layout="row" fill content><a-gauge unit="kelvin" interval="second" min="0" max="50" value="22" bands="safe" label="purge"></a-gauge></a-cell>
-      <a-cell layout="row" fill content><a-gauge unit="watt" interval="hour" min="0" max="1200000000" value="811000000" bands="safe" label="Gen"></a-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="battery" icon="component-emergency-battery">Bat</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="fuel" icon="component-fusion">Fuel</display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="fuelConsumption" icon="component-fuel">Fuel<sup>--</sup></display-gauge></a-cell>
+      <a-cell layout="row" justify="center" fill content><display-gauge source="fuelEfficiency" icon="component-fuel-efficiency">Fuel<sup>Eco</sup></display-gauge></a-cell>
     </a-cell>
   </a-cell>
   <a-cell content>
@@ -85,28 +83,28 @@
 
   <aries-panel area="c">
     <a-cell>
-      <a-label icon="fal fa-dharmachakra" size="lg">Navigation</a-label>
+      <a-label icon="navigation-station" size="lg">Navigation</a-label>
     </a-cell>
     <a-cell fill>Target List</a-cell>
   </aries-panel>
 
   <aries-panel area="d">
     <a-cell>
-      <a-label icon="fal fa-crosshairs" size="lg">Tactical</a-label>
+      <a-label icon="tactical-station" size="lg">Tactical</a-label>
     </a-cell>
     <a-cell fill>Target List</a-cell>
   </aries-panel>
 
   <aries-panel area="e">
     <a-cell>
-      <a-label icon="fal fa-atom-simple" size="lg">Science</a-label>
+      <a-label icon="science-station" size="lg">Science</a-label>
     </a-cell>
     <a-cell fill>Target List</a-cell>
   </aries-panel>
 
   <aries-panel area="f">
     <a-cell>
-      <a-label icon="fal fa-satellite-dish" size="lg">Comm</a-label>
+      <a-label icon="communications-station" size="lg">Comm</a-label>
     </a-cell>
     <a-cell fill>Target List</a-cell>
   </aries-panel>
